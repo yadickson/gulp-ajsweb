@@ -1,7 +1,6 @@
 'use strict'
 
 const gulp = require('gulp');
-const del = require('del');
 const rename = require('gulp-rename');
 const gulpif = require('gulp-if');
 const concat = require('gulp-concat');
@@ -52,10 +51,6 @@ function isMinimal(options) {
 
 function getDestination(options) {
     return getOptions(options).dest || 'build';
-}
-
-function clean() {
-    return del(['.tmp', 'build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', '.karma*'])
 }
 
 /**
@@ -322,7 +317,6 @@ function updateKarmaFile(options) {
 }
 
 module.exports = {
-    clean: clean,
     buildScripts: buildScripts,
     buildStyles: buildStyles,
     buildFonts: buildFonts,
