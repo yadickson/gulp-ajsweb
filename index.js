@@ -22,7 +22,6 @@ const cache = require('gulp-cache');
 const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const jshint = require("gulp-jshint");
-const fs = require('file-system');
 
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
@@ -308,17 +307,15 @@ function buildIndexTest(options) {
         .pipe(gulp.dest(dest));
 }
 
-function makeKarmaFile(options) {
+function updateKarmaFile(options) {
 
-    fs.writeFileSync('.karma.conf.js', fs.readFileSync('karma.conf.js'));
-
-    return gulp.src('.karma.conf.js')
+    return gulp.src('karma.conf.js')
         .pipe(inject(series(vendorScripts(options), vendorTestScripts(options), appScripts(), appTestsScripts()), {
             starttag: 'files: [',
             endtag: '],',
             relative: true,
             transform: function(filepath, file, i, length) {
-                return '  "' + filepath + '"' + (i + 1 < length ? ',' : '');
+                return '"' + filepath + '"' + (i + 1 < length ? ',' : '');
             }
         }))
         .pipe(gulp.dest('./'));
@@ -333,6 +330,6 @@ module.exports = {
     buildImages: buildImages,
     buildIcon: buildIcon,
     buildIndexTest: buildIndexTest,
-    makeKarmaFile: makeKarmaFile,
+    updateKarmaFile: updateKarmaFile,
     paths: paths
 };
