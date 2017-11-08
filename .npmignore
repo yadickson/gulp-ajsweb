@@ -1,0 +1,9 @@
+test
+coverage
+reports
+package-lock.json
+*.tgz
+yarn*
+.travis.yml
+.nyc*
+node_modules
