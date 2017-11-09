@@ -319,7 +319,7 @@ module.exports = {
     appViews: appViews,
     appImages: appImages,
     appFonts: appFonts,
-    appTests: appTests,
+    appTestsScripts: appTestsScripts,
     buildScripts: buildScripts,
     buildStyles: buildStyles,
     buildFonts: buildFonts,
