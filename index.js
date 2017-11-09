@@ -192,7 +192,7 @@ function buildVendorScripts(options) {
     var dest = getDestination(options);
     return vendorScripts()
         .pipe(gulpif(minimal, babel({
-            presets: ['env', 'babili']
+            presets: ['env', 'minify']
         })))
         .pipe(gulpif(minimal, concat('vendors.js')))
         .pipe(gulpif(minimal, uglify()))
