@@ -24,12 +24,12 @@ const uglify = require('gulp-uglify');
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
     appStyles: ['app/styles/*.*css', '!README'],
-    appViews: 'app/**/*.html',
-    appIcon: 'app/*.ico',
-    appImages: 'app/images/**/*',
+    appViews: ['app/**/*.html'],
+    appIcon: ['app/*.ico'],
+    appImages: ['app/images/**/*'],
     appFonts: ['app/fonts/**/*.{eot,svg,ttf,woff,woff2}', '!README'],
     appTests: ['test/**/*.js'],
-    testHtml: 'test/test.html'
+    testHtml: ['test/test.html']
 }
 
 function getOptions(options) {
@@ -94,7 +94,7 @@ function buildScripts(options) {
     var dest = getDestination(options);
     return appScripts()
         .pipe(gulpif(minimal, babel({
-            presets: ['env', 'babili']
+            presets: ['env', 'minify']
         })))
         .pipe(gulpif(minimal, concat('app.js')))
         .pipe(gulpif(minimal, uglify()))
@@ -314,7 +314,12 @@ function updateKarmaFile(options) {
 }
 
 module.exports = {
-	appScripts: appScripts,
+    appScripts: appScripts,
+    appStyles: appStyles,
+    appViews: appViews,
+    appImages: appImages,
+    appFonts: appFonts,
+    appTests: appTests,
     buildScripts: buildScripts,
     buildStyles: buildStyles,
     buildFonts: buildFonts,
