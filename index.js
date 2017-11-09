@@ -20,7 +20,6 @@ const inject = require('gulp-inject');
 const cache = require('gulp-cache');
 const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
-const jshint = require("gulp-jshint");
 
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
@@ -62,9 +61,7 @@ function appScripts() {
         .pipe(order([
             'main.js',
             '*'
-        ]))
-        .pipe(jshint())
-        .pipe(jshint.reporter());
+        ]));
 }
 
 function appStyles() {
@@ -317,6 +314,7 @@ function updateKarmaFile(options) {
 }
 
 module.exports = {
+	appScripts: appScripts,
     buildScripts: buildScripts,
     buildStyles: buildStyles,
     buildFonts: buildFonts,
