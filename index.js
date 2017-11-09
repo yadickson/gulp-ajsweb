@@ -20,6 +20,7 @@ const inject = require('gulp-inject');
 const cache = require('gulp-cache');
 const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
+const ngdocs = require('gulp-ngdocs-components');
 
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
@@ -50,6 +51,10 @@ function isMinimal(options) {
 
 function getDestination(options) {
     return getOptions(options).dest || 'build';
+}
+
+function getConfigFile(options) {
+    return getOptions(options).configFile || '.ajswebrc';
 }
 
 /**
@@ -143,6 +148,13 @@ function buildIcon(options) {
     var dest = getDestination(options);
     return appIcon()
         .pipe(gulp.dest(dest));
+}
+
+function buildDocs(options) {
+    var dest = getDestination(options);
+    return appScripts()
+        .pipe(ngdocs.process())
+        .pipe(gulp.dest(dest))
 }
 
 /**
@@ -300,8 +312,9 @@ function buildIndexTest(options) {
 }
 
 function updateKarmaFile(options) {
-
-    return gulp.src('karma.conf.js')
+    var configFile = getConfigFile(options);
+    var dest = getDestination(options);
+    return gulp.src(configFile)
         .pipe(inject(series(vendorScripts(options), vendorTestScripts(options), appScripts(), appTestsScripts()), {
             starttag: 'files: [',
             endtag: '],',
@@ -310,7 +323,7 @@ function updateKarmaFile(options) {
                 return '"' + filepath + '"' + (i + 1 < length ? ',' : '');
             }
         }))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest(dest));
 }
 
 module.exports = {
@@ -326,6 +339,7 @@ module.exports = {
     buildViews: buildViews,
     buildImages: buildImages,
     buildIcon: buildIcon,
+    buildDocs: buildDocs,
     buildIndexTest: buildIndexTest,
     updateKarmaFile: updateKarmaFile,
     paths: paths
