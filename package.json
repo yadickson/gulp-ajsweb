@@ -31,6 +31,12 @@
     "gulp-style-npm-files": "^1.0.0",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
-    "stream-series": "^0.1.1"
-  }
+    "stream-series": "^0.1.1",
+    "snyk": "^1.49.1"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
