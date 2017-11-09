@@ -91,15 +91,6 @@ function appIcon() {
     return gulp.src(paths.appIcon);
 }
 
-
-/**
- * List scripts all files
- */
-
-function listScript() {
-    return series(vendorScripts(options), vendorTestScripts(options), appScripts(), appTestsScripts());
-}
-
 /**
  * Build appliation elements
  */
@@ -162,7 +153,7 @@ function buildIcon(options) {
 function buildDocs(options) {
     var dest = getDestination(options);
     var options = {
-        scripts: listScript()
+        scripts: []
     };
 
     return appScripts()
