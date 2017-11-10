@@ -7,3 +7,4 @@ yarn*
 .travis.yml
 .nyc*
 node_modules
+.snyk*
