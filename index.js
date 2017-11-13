@@ -33,7 +33,7 @@ const stylePath = {
 
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
-    appStyles: [stylePath.lessStyles, stylePath.scssStyles, stylePath.cssStyles],
+    appStyles: [stylePath.lessStyles, stylePath.scssStyles, stylePath.cssStyles, '!README'],
     appViews: ['app/**/*.html'],
     appIcon: ['app/*.ico'],
     appImages: ['app/images/**/*'],
@@ -134,8 +134,13 @@ function buildStyles(options) {
     };
 
     var injectAppFiles = gulp.src([stylePath.scssStyles, '!app/styles/main.scss'], {
-        read: false
-    });
+            read: false
+        })
+        .pipe(order([
+            'global.scss',
+            'main.scss',
+            '*'
+        ]));
 
     var scssStream = gulp.src(['app/styles/main.scss'])
         .pipe(inject(series(vendorSCSSStyles(options), injectAppFiles), injectAppOptions))
