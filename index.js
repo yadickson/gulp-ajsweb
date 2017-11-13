@@ -191,7 +191,9 @@ function buildIcon(options) {
 function buildDocs(options) {
     var dest = getDestination(options);
     var options = {
-        scripts: []
+        scripts: [],
+        html5Mode: true,
+        editExample: false
     };
 
     return appScripts()
