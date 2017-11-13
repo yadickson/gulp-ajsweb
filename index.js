@@ -138,7 +138,6 @@ function buildStyles(options) {
         })
         .pipe(order([
             'global.scss',
-            'main.scss',
             '*'
         ]));
 
