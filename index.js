@@ -23,6 +23,7 @@ const cache = require('gulp-cache');
 const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const ngdocs = require('gulp-ngdocs-components');
+const filter = require('gulp-filter');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
@@ -137,12 +138,12 @@ function buildStyles(options) {
     });
 
     var scssStream = gulp.src(['app/styles/main.scss'])
-        .pipe(inject(series(vendorStyles(options), injectAppFiles), injectAppOptions))
+        .pipe(inject(series(vendorSCSSStyles(options), injectAppFiles), injectAppOptions))
         .pipe(sass().on('error', sass.logError));
 
     var cssStream = gulp.src(stylePath.cssStyles);
 
-    return merge(styleNpmFiles(), lessStream, scssStream, cssStream)
+    return merge(vendorCSSStyles(), lessStream, scssStream, cssStream)
         .pipe(gulpif(minimal, stripCssComments()))
         .pipe(gulpif(minimal, sourcemaps.init()))
         .pipe(gulpif(minimal, cleanCSS()))
@@ -213,10 +214,19 @@ function vendorScripts(options) {
         ]));
 }
 
-function vendorStyles(options) {
+function vendorCSSStyles(options) {
     var sass = isSass(options);
-    return gulp.src([])
-    .pipe(gulpif(sass, 'node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')));
+    return gulp.src(styleNpmFiles())
+        .pipe(filter('*.css'))
+        .pipe(print());
+}
+
+function vendorSCSSStyles(options) {
+    var sass = isSass(options);
+    return gulp.src(styleNpmFiles())
+        .pipe(filter('*.scss'))
+        .pipe(gulpif(sass, addsrc('node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')))
+        .pipe(print());
 }
 
 /**
