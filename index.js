@@ -222,16 +222,14 @@ function vendorScripts(options) {
 function vendorCSSStyles(options) {
     var sass = isSass(options);
     return gulp.src(styleNpmFiles())
-        .pipe(filter('*.css'))
-        .pipe(print());
+        .pipe(filter('*.css'));
 }
 
 function vendorSCSSStyles(options) {
     var sass = isSass(options);
     return gulp.src(styleNpmFiles())
         .pipe(filter('*.scss'))
-        .pipe(gulpif(sass, addsrc('node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')))
-        .pipe(print());
+        .pipe(gulpif(sass, addsrc('node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')));
 }
 
 /**
