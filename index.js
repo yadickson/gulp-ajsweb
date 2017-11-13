@@ -8,6 +8,8 @@ const addsrc = require('gulp-add-src');
 const mainNpmFiles = require('gulp-main-npm-files');
 const styleNpmFiles = require('gulp-style-npm-files');
 const fontNpmFiles = require('gulp-font-npm-files');
+const merge = require('merge-stream');
+const less = require('gulp-less');
 const sass = require('gulp-sass');
 const cleanCSS = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
@@ -22,9 +24,15 @@ const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const ngdocs = require('gulp-ngdocs-components');
 
+const stylePath = {
+    lessStyles: 'app/styles/*.less',
+    scssStyles: 'app/styles/*.scss',
+    cssStyles: 'app/styles/*.css'
+};
+
 const paths = {
     appScripts: ['app/scripts/**/*.js'],
-    appStyles: ['app/styles/*.*css', '!README'],
+    appStyles: [stylePath.lessStyles, stylePath.scssStyles, stylePath.cssStyles],
     appViews: ['app/**/*.html'],
     appIcon: ['app/*.ico'],
     appImages: ['app/images/**/*'],
@@ -109,8 +117,33 @@ function buildScripts(options) {
 function buildStyles(options) {
     var minimal = isMinimal(options);
     var dest = getDestination(options);
-    return appStyles()
-        .pipe(gulpif(isSass(options), sass().on('error', sass.logError)))
+
+    var lessStream = gulp.src(stylePath.lessStyles)
+        .pipe(less());
+
+    function transformFilepath(filepath) {
+        return '@import "' + filepath + '";';
+    }
+
+    var injectAppOptions = {
+        transform: transformFilepath,
+        starttag: '// inject:sass',
+        endtag: '// endinject',
+        addRootSlash: false
+    };
+
+    var injectAppFiles = gulp.src([stylePath.scssStyles, '!app/styles/main.scss'], {
+        read: false
+    });
+
+    var scssStream = gulp.src(['app/styles/main.scss'])
+        .pipe(inject(series(vendorStyles(options), injectAppFiles), injectAppOptions))
+        .pipe(sass().on('error', sass.logError));
+
+    var cssStream = gulp.src(stylePath.cssStyles);
+
+    return merge(styleNpmFiles(), lessStream, scssStream, cssStream)
+        .pipe(gulpif(minimal, stripCssComments()))
         .pipe(gulpif(minimal, sourcemaps.init()))
         .pipe(gulpif(minimal, cleanCSS()))
         .pipe(gulpif(minimal, sourcemaps.write()))
@@ -130,7 +163,7 @@ function buildFonts(options) {
 function buildViews(options) {
     var dest = getDestination(options);
     return appViews()
-        .pipe(inject(series(buildVendorScripts(options), buildScripts(options), buildVendorStyles(options), buildStyles(options)), {
+        .pipe(inject(series(buildVendorScripts(options), buildScripts(options), buildStyles(options)), {
             ignorePath: dest,
             addRootSlash: false
         }))
@@ -180,8 +213,10 @@ function vendorScripts(options) {
         ]));
 }
 
-function vendorStyles() {
-    return gulp.src(styleNpmFiles());
+function vendorStyles(options) {
+    var sass = isSass(options);
+    return gulp.src([])
+    .pipe(gulpif(sass, 'node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')));
 }
 
 /**
@@ -197,19 +232,6 @@ function buildVendorScripts(options) {
         .pipe(gulpif(minimal, concat('vendors.js')))
         .pipe(gulpif(minimal, uglify()))
         .pipe(gulp.dest(dest + '/js'));
-}
-
-function buildVendorStyles(options) {
-    var minimal = isMinimal(options);
-    var dest = getDestination(options);
-    return vendorStyles()
-        .pipe(gulpif(isSass(options), sass().on('error', sass.logError)))
-        .pipe(stripCssComments())
-        .pipe(gulpif(minimal, sourcemaps.init()))
-        .pipe(gulpif(minimal, cleanCSS()))
-        .pipe(gulpif(minimal, sourcemaps.write()))
-        .pipe(gulpif(minimal, concat('vendor.css')))
-        .pipe(gulp.dest(dest + '/css'));
 }
 
 /**
