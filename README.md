@@ -9,7 +9,7 @@ Gulp Angular JS utils to build Web Application
 ## Installation
 
 ```bash
-npm install -g gulp-ajsweb
+npm install --save gulp-ajsweb gulp
 ```
 
 ## Generator ajsweb

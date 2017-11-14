@@ -1,16 +1,15 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",
   "author": "Yadickson Soto <yadickson@gmail.com>",
   "license": "GPL-3.0",
   "dependencies": {
-    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
-    "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-babel": "^7.0.0",
@@ -35,5 +34,8 @@
     "gulp-util": "^3.0.8",
     "merge-stream": "^1.0.1",
     "stream-series": "^0.1.1"
+  },
+  "peerDependencies": {
+    "gulp": "^3.9.1"
   }
 }
