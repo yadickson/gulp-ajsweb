@@ -355,7 +355,7 @@ function updateKarmaFile(options) {
     var configFile = getConfigFile(options);
     var dest = getDestination(options);
     return gulp.src(configFile)
-        .pipe(inject(series(vendorScripts(options), vendorTestScripts(options), appScripts(), appTestsScripts()), {
+        .pipe(inject(series(vendorTestScripts(options), appScripts(), appTestsScripts()), {
             starttag: 'files: [',
             endtag: '],',
             relative: true,
