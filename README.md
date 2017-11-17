@@ -8,8 +8,16 @@ Gulp Angular JS utils to build Web Application
 
 ## Installation
 
+Simply run a install using your terminal and you're good to go!
+
 ```bash
-npm install --save gulp-ajsweb gulp
+npm install --save gulp gulp-add-src gulp-imagemin gulp-ngdocs-components gulp-order gulp-ajsweb
+```
+
+If you're a cool kid using Yarn then simply just use yarn as you would
+
+```bash
+yarn add gulp gulp-add-src gulp-imagemin gulp-ngdocs-components gulp-order gulp-ajsweb
 ```
 
 ## Generator ajsweb
