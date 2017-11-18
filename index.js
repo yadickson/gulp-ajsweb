@@ -27,7 +27,7 @@ const filter = require('gulp-filter');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
-    scssStyles: 'app/styles/*.scss',
+    scssStyles: ['app/styles/*.sass', 'app/styles/*.scss'],
     cssStyles: 'app/styles/*.css'
 };
 
@@ -221,15 +221,14 @@ function vendorScripts(options) {
 }
 
 function vendorCSSStyles(options) {
-    var sass = isSass(options);
     return gulp.src(styleNpmFiles())
-        .pipe(filter('*.css'));
+        .pipe(filter('**/*.css'));
 }
 
 function vendorSCSSStyles(options) {
     var sass = isSass(options);
     return gulp.src(styleNpmFiles())
-        .pipe(filter('*.scss'))
+        .pipe(filter('**/*.scss'))
         .pipe(gulpif(sass, addsrc('node_modules/bootstrap-sass/assets/stylesheets/**/*.scss')));
 }
 
