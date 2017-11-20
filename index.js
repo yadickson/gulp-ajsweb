@@ -26,6 +26,7 @@ const ngdocs = require('gulp-ngdocs-components');
 const filter = require('gulp-filter');
 const gulpPostcss = require('gulp-postcss');
 const cssdeclsort = require('css-declaration-sorter');
+const stripDebug = require('gulp-strip-debug');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
@@ -109,6 +110,7 @@ function buildScripts(options) {
     var minimal = isMinimal(options);
     var dest = getDestination(options);
     return appScripts()
+        .pipe(gulpif(minimal, stripDebug()))
         .pipe(gulpif(minimal, babel({
             presets: ['env', 'minify']
         })))
@@ -242,6 +244,7 @@ function buildVendorScripts(options) {
     var minimal = isMinimal(options);
     var dest = getDestination(options);
     return vendorScripts()
+        .pipe(stripDebug())
         .pipe(gulpif(minimal, babel({
             presets: ['env', 'minify']
         })))
