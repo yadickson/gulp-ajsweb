@@ -24,6 +24,8 @@ const imagemin = require('gulp-imagemin');
 const uglify = require('gulp-uglify');
 const ngdocs = require('gulp-ngdocs-components');
 const filter = require('gulp-filter');
+const gulpPostcss = require('gulp-postcss');
+const cssdeclsort = require('css-declaration-sorter');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
@@ -153,6 +155,7 @@ function buildStyles(options) {
         .pipe(gulpif(minimal, cleanCSS()))
         .pipe(gulpif(minimal, sourcemaps.write()))
         .pipe(gulpif(minimal, concat('app.css')))
+        .pipe(gulpPostcss([cssdeclsort({order: 'smacss'})]))
         .pipe(gulp.dest(dest + '/css'));
 }
 
