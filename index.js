@@ -27,7 +27,7 @@ const filter = require('gulp-filter');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
-    scssStyles: ['app/styles/*.sass', 'app/styles/*.scss'],
+    scssStyles: 'app/styles/*.scss',
     cssStyles: 'app/styles/*.css'
 };
 
