@@ -28,6 +28,7 @@ const filter = require('gulp-filter');
 const gulpPostcss = require('gulp-postcss');
 const cssdeclsort = require('css-declaration-sorter');
 const stripDebug = require('gulp-strip-debug');
+const urlAdjuster = require('gulp-css-url-adjuster');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
@@ -155,12 +156,19 @@ function buildStyles(options) {
     var cssStream = gulp.src(stylePath.cssStyles);
 
     return merge(vendorCSSStyles(), lessStream, scssStream, cssStream)
+        .pipe(gulpPostcss([cssdeclsort({
+            order: 'smacss'
+        })]))
         .pipe(gulpif(minimal, stripCssComments()))
         .pipe(gulpif(minimal, sourcemaps.init()))
         .pipe(gulpif(minimal, cleanCSS()))
         .pipe(gulpif(minimal, sourcemaps.write()))
         .pipe(gulpif(minimal, concat('app.css')))
-        .pipe(gulpPostcss([cssdeclsort({order: 'smacss'})]))
+        .pipe(urlAdjuster({
+            replace: function(url) {
+                return '../resource/' + url.replace(new RegExp('^.+\/'), '');
+            }
+        }))
         .pipe(gulp.dest(dest + '/css'));
 }
 
@@ -170,7 +178,7 @@ function buildFonts(options) {
         .pipe(rename({
             dirname: ''
         }))
-        .pipe(gulp.dest(dest + '/fonts'));
+        .pipe(gulp.dest(dest + '/resource'));
 }
 
 function buildViews(options) {
@@ -187,7 +195,7 @@ function buildImages(options) {
     var dest = getDestination(options);
     return appImages()
         .pipe(cache(imagemin()))
-        .pipe(gulp.dest(dest + '/images'));
+        .pipe(gulp.dest(dest + '/resource'));
 }
 
 function buildIcon(options) {
