@@ -8,6 +8,7 @@ const addsrc = require('gulp-add-src');
 const mainNpmFiles = require('gulp-main-npm-files');
 const styleNpmFiles = require('gulp-style-npm-files');
 const fontNpmFiles = require('gulp-font-npm-files');
+const imgNpmFiles = require('gulp-img-npm-files');
 const merge = require('merge-stream');
 const less = require('gulp-less');
 const sass = require('gulp-sass');
@@ -96,7 +97,9 @@ function appViews() {
 }
 
 function appImages() {
-    return gulp.src(paths.appImages);
+    return gulp.src(imgNpmFiles()
+        .concat(paths.appImages)
+    );
 }
 
 function appIcon() {
