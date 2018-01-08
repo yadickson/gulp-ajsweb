@@ -10,7 +10,7 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
-    "css-declaration-sorter": "^2.1.0",
+    "css-declaration-sorter": "^3.0.0",
     "gulp-angular-filesort": "^1.1.1",
     "gulp-babel": "^7.0.0",
     "gulp-cache": "^1.0.1",
@@ -26,10 +26,9 @@
     "gulp-main-npm-files": "^1.0.5",
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0",
     "gulp-sourcemaps": "^2.6.1",
-    "gulp-strip-css-comments": "^1.2.0",
-    "gulp-strip-debug": "^1.1.0",
+    "gulp-strip-css-comments": "^2.0.0",
+    "gulp-strip-debug": "^2.0.0",
     "gulp-style-npm-files": "^1.0.0",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
@@ -41,6 +40,7 @@
     "gulp-add-src": "^0.2.0",
     "gulp-imagemin": "^4.0.0",
     "gulp-ngdocs-components": "^0.1.4",
-    "gulp-order": "^1.1.1"
+    "gulp-order": "^1.1.1",
+    "gulp-sass": "^3.1.0"
   }
 }
