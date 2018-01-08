@@ -44,7 +44,7 @@ const paths = {
     appImages: ['app/images/**/*'],
     appFonts: ['app/fonts/**/*.{eot,svg,ttf,woff,woff2}', '!README'],
     appTests: ['test/**/*.js'],
-    testHtml: ['test/test.html']
+    testHtml: ['test/*.html']
 }
 
 function getOptions(options) {
