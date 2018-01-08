@@ -256,9 +256,6 @@ function buildVendorScripts(options) {
     var dest = getDestination(options);
     return vendorScripts()
         .pipe(stripDebug())
-        .pipe(gulpif(minimal, babel({
-            presets: ['env', 'minify']
-        })))
         .pipe(gulpif(minimal, concat('vendors.js')))
         .pipe(gulpif(minimal, uglify()))
         .pipe(gulp.dest(dest + '/js'));
