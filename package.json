@@ -1,6 +1,6 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",

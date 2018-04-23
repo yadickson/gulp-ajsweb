@@ -307,6 +307,7 @@ function appTestsScripts() {
             '**/*_directive_test.js',
             '**/*_filter_test.js',
             '**/*_decorator_test.js',
+            '**/*_component_test.js',
             '**/*_ctrl_test.js',
             '*'
         ]));
