@@ -29,6 +29,7 @@ const gulpPostcss = require('gulp-postcss');
 const cssdeclsort = require('css-declaration-sorter');
 const stripDebug = require('gulp-strip-debug');
 const urlAdjuster = require('gulp-css-url-adjuster');
+const removeLines = require('gulp-remove-lines');
 
 const stylePath = {
     lessStyles: 'app/styles/*.less',
@@ -77,6 +78,10 @@ function isAddPaths(options) {
 
 function getAddPaths(options) {
     return getOptions(options).addpaths || [];
+}
+
+function getDocPaths(options) {
+    return getOptions(options).docpaths || [];
 }
 
 /**
@@ -215,13 +220,15 @@ function buildIcon(options) {
 function buildDocs(options) {
     var dest = getDestination(options);
     var options = {
-        scripts: [],
+        scripts: getDocPaths(options),
         html5Mode: true,
         editExample: false
     };
 
     return appScripts()
         .pipe(ngdocs.process(options))
+        .pipe(removeLines({'filters': [ 'js/angular.min.js' ]}))
+        .pipe(removeLines({'filters': [ 'js/angular-animate.min.js' ]}))
         .pipe(gulp.dest(dest))
 }
 
@@ -235,6 +242,7 @@ function vendorScripts(options) {
     return gulp.src(mainNpmFiles()
             .concat('!node_modules/**/index.js')
             .concat('node_modules/angular/angular.js')
+            .concat('node_modules/angular-animate/angular-animate.js')
         )
         .pipe(gulpif(addPaths, addsrc(getAddPaths(options))))
         .pipe(gulpif(bootstrap, addsrc('node_modules/bootstrap/**/bootstrap.js')))
@@ -242,6 +250,7 @@ function vendorScripts(options) {
             'jquery.js',
             'angular.js',
             'angular-ui-router.js',
+            'angular-animate.js',
             'bootstrap.js',
             '*'
         ]));
@@ -323,6 +332,7 @@ function vendorTestScripts(options) {
     return gulp.src(mainNpmFiles()
             .concat('!node_modules/**/index.js')
             .concat('node_modules/angular/angular.js')
+            .concat('node_modules/angular-animate/angular-animate.js')
             .concat('node_modules/angular-mocks/angular-mocks.js')
         )
         .pipe(gulpif(addPaths, addsrc(getAddPaths(options))))
@@ -331,6 +341,7 @@ function vendorTestScripts(options) {
             'jquery.js',
             'angular.js',
             'angular-ui-router.js',
+            'angular-animate.js',
             'angular-mocks.js',
             'bootstrap.js',
             '*'
