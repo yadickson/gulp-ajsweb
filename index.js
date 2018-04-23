@@ -71,6 +71,14 @@ function getConfigFile(options) {
     return getOptions(options).configFile || '.ajswebrc';
 }
 
+function isAddPaths(options) {
+    return getAddPaths(options).length > 0;
+}
+
+function getAddPaths(options) {
+    return getOptions(options).addpaths || [];
+}
+
 /**
  * Appliation elements
  */
@@ -222,10 +230,13 @@ function buildDocs(options) {
  */
 function vendorScripts(options) {
     var bootstrap = isBootstrap(options);
+    var addPaths = isAddPaths(options);
+
     return gulp.src(mainNpmFiles()
             .concat('!node_modules/**/index.js')
             .concat('node_modules/angular/angular.js')
         )
+        .pipe(gulpif(addPaths, addsrc(getAddPaths(options))))
         .pipe(gulpif(bootstrap, addsrc('node_modules/bootstrap/**/bootstrap.js')))
         .pipe(order([
             'jquery.js',
@@ -254,7 +265,7 @@ function vendorSCSSStyles(options) {
 function buildVendorScripts(options) {
     var minimal = isMinimal(options);
     var dest = getDestination(options);
-    return vendorScripts()
+    return vendorScripts(options)
         .pipe(stripDebug())
         .pipe(gulpif(minimal, concat('vendors.js')))
         .pipe(gulpif(minimal, uglify()))
@@ -306,11 +317,14 @@ function appTestsScripts() {
  */
 function vendorTestScripts(options) {
     var bootstrap = isBootstrap(options);
+    var addPaths = isAddPaths(options);
+
     return gulp.src(mainNpmFiles()
             .concat('!node_modules/**/index.js')
             .concat('node_modules/angular/angular.js')
             .concat('node_modules/angular-mocks/angular-mocks.js')
         )
+        .pipe(gulpif(addPaths, addsrc(getAddPaths(options))))
         .pipe(gulpif(bootstrap, addsrc('node_modules/bootstrap/**/bootstrap.js')))
         .pipe(order([
             'jquery.js',
@@ -345,7 +359,7 @@ function buildAppTestScripts(options) {
 
 function buildVendorTestScripts(options) {
     var dest = getDestination(options);
-    return vendorTestScripts()
+    return vendorTestScripts(options)
         .pipe(gulp.dest(dest + '/js'));
 }
 
