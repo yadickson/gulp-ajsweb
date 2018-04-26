@@ -288,10 +288,12 @@ function mochaTestScripts() {
     return gulp.src([]
             .concat('node_modules/mocha/mocha.js')
             .concat('node_modules/chai/chai.js')
+            .concat('node_modules/sinon/lib/sinon.js')
         )
         .pipe(order([
             'mocha.js',
-            'chai.js'
+            'chai.js',
+            '*'
         ]));
 }
 
