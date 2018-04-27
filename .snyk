@@ -1,0 +1,42 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.11.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:marked:20150520':
+    - gulp-ngdocs-components > marked:
+        patched: '2018-04-27T17:42:33.988Z'
+  'npm:minimatch:20160620':
+    - gulp-add-src > vinyl-fs > glob-stream > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-ngdocs-components > vinyl-fs > glob-stream > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-ngdocs-components > vinyl-fs > glob-stream > glob > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > watchify > browserify > glob > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > browserify > glob > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-add-src > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-add-src > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-order > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-ngdocs-components > vinyl-fs > glob-watcher > gaze > globule > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - gulp-ngdocs-components > vinyl-fs > glob-watcher > gaze > globule > glob > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > watchify > chokidar > readdirp > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > minimatch:
+        patched: '2018-04-27T17:42:33.988Z'
+  'npm:uglify-js:20151024':
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-04-27T17:42:33.988Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-04-27T17:42:33.988Z'
