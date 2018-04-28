@@ -117,6 +117,7 @@ function tasks(gulp, options) {
 
   gulp.task('karma-server', () => {
     return new karma({
+      basePath: '../..',
       configFile: 'karma.conf.js',
       singleRun: true
     }).start();
