@@ -9,6 +9,7 @@ const del = require('del');
 const jshint = require("gulp-jshint");
 const rename = require("gulp-rename");
 const usage = require('gulp-help-doc');
+const zip = require('gulp-zip');
 
 let dev = true;
 let minimal = false;
@@ -36,13 +37,19 @@ function tasks(gulp, options) {
    *
    * @task {clean}
    * @group {Basic tasks}
-   * @order {4}
+   * @order {5}
    */
   gulp.task('clean', () => {
     return del(['build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
   });
 
   gulp.task('compile', ['scripts', 'styles', 'jshint', 'fonts', 'images', 'icon', 'views'], () => {});
+
+  gulp.task('zip', () => {
+    return gulp.src(dest + '/**')
+      .pipe(zip(dest + '.zip'))
+      .pipe(gulp.dest('.'));
+  });
 
   /**
    * Build project for develop.
@@ -55,7 +62,7 @@ function tasks(gulp, options) {
     return new Promise(resolve => {
       minimal = false;
       dest = 'build';
-      runSequence(['clean'], ['compile'], resolve);
+      runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
 
@@ -70,15 +77,22 @@ function tasks(gulp, options) {
     return new Promise(resolve => {
       minimal = true;
       dest = 'dist';
-      runSequence(['clean'], ['compile'], resolve);
+      runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
 
+  /**
+   * Documentation project.
+   *
+   * @task {docs}
+   * @group {Basic tasks}
+   * @order {4}
+   */
   gulp.task('docs', () => {
     return new Promise(resolve => {
       minimal = true;
       dest = 'docs';
-      runSequence(['clean'], ['compile'], ['js2docs'], resolve);
+      runSequence(['clean'], ['compile'], ['js2docs'], ['zip'], resolve);
     });
   });
 
