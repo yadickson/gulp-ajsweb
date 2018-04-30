@@ -146,7 +146,7 @@ function tasks(gulp, options) {
       .pipe(gulp.dest(dest));
   });
 
-  gulp.task('test', 'Run test project', function() {
+  gulp.task('test', 'Test project', function() {
     return new Promise(resolve => {
       runSequence(['karma-cnf'], ['build'], ['testHtml'], ['karma-server'], resolve);
     });
@@ -193,7 +193,7 @@ function tasks(gulp, options) {
     });
   });
 
-  gulp.task('serve:test', 'Run tests on server http://localhost:' + port, function() {
+  gulp.task('serve:test', 'Run test on server http://localhost:' + port, function() {
     return new Promise(resolve => {
       runSequence(['karma-cnf'], ['build'], ['testHtml'], ['connect'], ['watch'], ['watchtest'], ['open'], resolve);
     });
