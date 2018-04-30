@@ -1,6 +1,6 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",
@@ -23,7 +23,7 @@
     "gulp-css-url-adjuster": "^0.2.3",
     "gulp-filter": "^5.0.1",
     "gulp-font-npm-files": "^1.0.7",
-    "gulp-help": "1.6.1",
+    "gulp-help-doc": "^1.1.1",
     "gulp-if": "^2.0.2",
     "gulp-img-npm-files": "^1.0.0",
     "gulp-inject": "^4.3.0",

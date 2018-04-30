@@ -72,12 +72,13 @@ options = {
 };
 
 let gulp = require("gulp-ajsweb")(require('gulp'), options);
-gulp.task('default', false, ['help'], () => {});
+gulp.task('default', ['help'], () => {});
 ```
 
 # ChangeLog
 
- version 1.6.0 >= Support gulp help
+ version 1.6.2 >= Support gulp-help-doc
+ version 1.6.0 >= Support gulp-help
  version 1.5.0 <= not supported, please see how to use the new version
 
 ## Generator ajsweb
