@@ -25,7 +25,6 @@ yarn add gulp karma angular@~1.6.0 angular-animate@~1.6.0 gulp-add-src gulp-imag
 let addpaths = [
   'node_modules/angular/angular.js',
   'node_modules/angular-animate/angular-animate.js',
-  'node_modules/angular-route/angular-route.js',
   'node_modules/bootstrap/**/bootstrap.js'
 ];
 
@@ -35,8 +34,7 @@ let addtestpaths = [
 
 let excludepaths = [
   '!node_modules/angular/index.js',
-  '!node_modules/angular-animate/index.js',
-  '!node_modules/angular-route/index.js'
+  '!node_modules/angular-animate/index.js'
 ];
 
 let addcss = [
@@ -77,6 +75,8 @@ gulp.task('default', ['help'], () => {});
 
 # ChangeLog
 
+ version 1.6.4 >= Update dependency versions
+ version 1.6.3 >= Support gulp-zip
  version 1.6.2 >= Support gulp-help-doc
  version 1.6.0 >= Support gulp-help
  version 1.5.0 <= not supported, please see how to use the new version
