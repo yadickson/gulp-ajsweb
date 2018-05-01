@@ -50,12 +50,11 @@ let addfonts = [
 ];
 
 let orderBy = [
-  '**/jquery.js',
-  '**/angular.js',
-  '**/angular-*.js',
-  '**/bootstrap.js',
-  '**/bootstrap-*.js',
-  '*'
+  'jquery.js',
+  'angular.js',
+  'angular-*.js',
+  'bootstrap.js',
+  'bootstrap-*.js'
 ];
 
 options = {

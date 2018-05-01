@@ -1,6 +1,6 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",
@@ -14,7 +14,6 @@
     "coveralls": "~3.0.0",
     "css-declaration-sorter": "~3.0.0",
     "del": "^3.0.0",
-    "gulp-angular-filesort": "~1.2.1",
     "gulp-babel": "~7.0.0",
     "gulp-cache": "~1.0.1",
     "gulp-clean-css": "~3.9.0",
@@ -35,6 +34,7 @@
     "gulp-print": "~5.0.0",
     "gulp-remove-lines": "~0.1.0",
     "gulp-rename": "~1.2.2",
+    "gulp-resolve-dependencies": "~2.2.0",
     "gulp-sourcemaps": "~2.6.1",
     "gulp-strip-css-comments": "~2.0.0",
     "gulp-strip-debug": "~2.0.0",

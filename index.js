@@ -43,7 +43,11 @@ function tasks(gulp, options) {
     return del(['build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
   });
 
-  gulp.task('compile', ['scripts', 'styles', 'jshint', 'fonts', 'images', 'icon', 'views'], () => {});
+  gulp.task('compile', () => {
+    return new Promise(resolve => {
+      runSequence(['scripts'], ['styles'], ['jshint'], ['fonts'], ['images'], ['icon'], ['views'], resolve);
+    });
+  });
 
   gulp.task('zip', () => {
     return gulp.src(dest + '/**')
@@ -189,7 +193,7 @@ function tasks(gulp, options) {
    */
   gulp.task('test', function() {
     return new Promise(resolve => {
-      runSequence(['karma-cnf'], ['build'], ['testHtml'], ['karma-server'], resolve);
+      runSequence(['clean'], ['karma-cnf'], ['karma-server'], resolve);
     });
   });
 
@@ -257,7 +261,7 @@ function tasks(gulp, options) {
    */
   gulp.task('serve:test', function() {
     return new Promise(resolve => {
-      runSequence(['karma-cnf'], ['build'], ['testHtml'], ['connect'], ['watch'], ['watchtest'], ['open'], resolve);
+      runSequence(['build'], ['testHtml'], ['connect'], ['watch'], ['watchtest'], ['open'], resolve);
     });
   });
 

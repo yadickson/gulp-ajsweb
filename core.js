@@ -15,7 +15,6 @@ const cleanCSS = require('gulp-clean-css');
 const sourcemaps = require('gulp-sourcemaps');
 const stripCssComments = require('gulp-strip-css-comments');
 const order = require('gulp-order');
-const angularFilesort = require('gulp-angular-filesort');
 const babel = require('gulp-babel');
 const series = require('stream-series');
 const inject = require('gulp-inject');
@@ -30,6 +29,7 @@ const stripDebug = require('gulp-strip-debug');
 const urlAdjuster = require('gulp-css-url-adjuster');
 const removeLines = require('gulp-remove-lines');
 const print = require('gulp-print').default;
+const resolveDependencies = require('gulp-resolve-dependencies');
 
 let gulp;
 let startOptions = {};
@@ -116,7 +116,7 @@ function getAddFonts() {
 }
 
 function getOrderBy() {
-  return startOptions.orderBy || ['*'];
+  return startOptions.orderBy || [];
 }
 
 function getDocPaths(options) {
@@ -128,11 +128,11 @@ function getDocPaths(options) {
  */
 function appScripts() {
   return gulp.src(paths.appScripts)
-    .pipe(angularFilesort())
     .pipe(order([
       'main.js',
       '*'
-    ]));
+    ]))
+    .pipe(resolveDependencies());
 }
 
 function appStyles() {
@@ -286,7 +286,7 @@ function vendorScripts(options) {
   return gulp.src(mainNpmFiles())
     .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
     .pipe(gulpif(addPaths, addsrc(getAddPaths())))
-    .pipe(order(getOrderBy()))
+    .pipe(order(getOrderBy().concat(['*'])))
     .pipe(print());
 }
 
@@ -374,7 +374,7 @@ function vendorTestScripts(options) {
     .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
     .pipe(gulpif(addPaths, addsrc(getAddPaths())))
     .pipe(gulpif(addTestPaths, addsrc(getAddTestPaths())))
-    .pipe(order(getOrderBy()));
+    .pipe(order(getOrderBy().concat(['*'])));
 }
 
 /**
