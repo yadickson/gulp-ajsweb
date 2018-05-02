@@ -188,9 +188,7 @@ function tasks(gulp, options) {
 
   gulp.task('test-jshint', () => {
     return ajsweb.appTestsScripts()
-      .pipe(jshint({
-        expr: true
-      }))
+      .pipe(jshint({expr: true}))
       .pipe(jshint.reporter());
   });
 
@@ -212,7 +210,7 @@ function tasks(gulp, options) {
    */
   gulp.task('test', function() {
     return new Promise(resolve => {
-      runSequence(['clean'], ['karma-cnf'], ['karma-server'], resolve);
+      runSequence(['clean'], ['jshint'], ['test-jshint'], ['karma-cnf'], ['karma-server'], resolve);
     });
   });
 
