@@ -23,8 +23,6 @@ yarn add gulp karma angular@~1.6.0 angular-animate@~1.6.0 gulp-add-src gulp-imag
 
 ```JavaScript
 let addpaths = [
-  'node_modules/angular/angular.js',
-  'node_modules/angular-animate/angular-animate.js',
   'node_modules/bootstrap/**/bootstrap.js'
 ];
 
@@ -33,20 +31,23 @@ let addtestpaths = [
 ];
 
 let excludepaths = [
-  '!node_modules/angular/index.js',
-  '!node_modules/angular-animate/index.js'
+  // '!node_modules/project/index.js'
 ];
 
 let addcss = [
-
+  // 'node_modules/project/file.css'
 ];
 
 let addscss = [
-
+  'node_modules/bootstrap-sass/assets/stylesheets/**/*.scss'
 ];
 
 let addfonts = [
+  // 'node_modules/project/file.ttf'
+];
 
+let notprocess = [
+   'jquery'
 ];
 
 let orderBy = [
@@ -57,7 +58,7 @@ let orderBy = [
   'bootstrap-*.js'
 ];
 
-options = {
+let options = {
   addpaths: addpaths,
   addtestpaths: addtestpaths,
   excludepaths: excludepaths,
@@ -65,6 +66,8 @@ options = {
   addscss: addscss,
   addfonts: addfonts,
   orderBy: orderBy,
+  notprocess: notprocess,
+  browser: 'firefox',
   port: 9100
 };
 
@@ -74,6 +77,7 @@ gulp.task('default', ['help'], () => {});
 
 # ChangeLog
 
+ version 1.6.8 >= Add browser support
  version 1.6.4 >= Update dependency versions
  version 1.6.3 >= Support gulp-zip
  version 1.6.2 >= Support gulp-help-doc

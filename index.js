@@ -15,6 +15,7 @@ let dev = true;
 let minimal = false;
 let dest = 'dist';
 let port = 9100;
+let browser = 'firefox';
 
 function tasks(gulp, options) {
 
@@ -26,9 +27,11 @@ function tasks(gulp, options) {
   options.addcss = options.addcss || [];
   options.addscss = options.addscss || [];
   options.addfonts = options.addfonts || [];
+  options.notprocess = options.notprocess || [];
   options.orderBy = options.orderBy || [];
 
-  port = options.port || 9100;
+  port = options.port || port;
+  browser = options.browser || browser;
 
   ajsweb.register(gulp, options);
 
@@ -164,7 +167,7 @@ function tasks(gulp, options) {
   gulp.task('karma-cnf', () => {
     return ajsweb.updateKarmaFile({
       configFile: 'karma.conf.js',
-      dest: '.'
+      dest: 'build'
     });
   });
 
@@ -209,7 +212,7 @@ function tasks(gulp, options) {
     return gulp.src(dest + '/index.html')
       .pipe(open({
         uri: 'localhost:' + port,
-        app: 'firefox'
+        app: browser
       }));
   });
 
@@ -223,7 +226,8 @@ function tasks(gulp, options) {
   });
 
   gulp.task('watchtest', function() {
-    gulp.watch(ajsweb.paths.appTests, ['scripts', 'jshint', 'testHtml']);
+    gulp.watch(ajsweb.paths.appScripts, ['scripts', 'jshint', 'testHtml']);
+    gulp.watch(ajsweb.paths.appTests, ['testHtml']);
   });
 
   /**
@@ -261,7 +265,9 @@ function tasks(gulp, options) {
    */
   gulp.task('serve:test', function() {
     return new Promise(resolve => {
-      runSequence(['build'], ['testHtml'], ['connect'], ['watch'], ['watchtest'], ['open'], resolve);
+      dest = 'build';
+      minimal = false;
+      runSequence(['clean'], ['testHtml'], ['connect'], ['watchtest'], ['open'], resolve);
     });
   });
 

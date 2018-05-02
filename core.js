@@ -29,6 +29,9 @@ const stripDebug = require('gulp-strip-debug');
 const urlAdjuster = require('gulp-css-url-adjuster');
 const removeLines = require('gulp-remove-lines');
 const print = require('gulp-print').default;
+const browserify = require('gulp-browserify');
+const flatmap = require('gulp-flatmap');
+const path = require('path');
 const resolveDependencies = require('gulp-resolve-dependencies');
 
 let gulp;
@@ -117,6 +120,10 @@ function getAddFonts() {
 
 function getOrderBy() {
   return startOptions.orderBy || [];
+}
+
+function getNotProcess() {
+  return startOptions.notprocess || [];
 }
 
 function getDocPaths(options) {
@@ -276,6 +283,21 @@ function buildDocs(options) {
     .pipe(gulp.dest(dest))
 }
 
+function processVendor(stream, file) {
+
+      var basepath = path.normalize(__dirname + path.sep + '..');
+      var filename = file.path.replace(basepath, '').split(path.sep)[1];
+      var process = getNotProcess().indexOf(filename) === -1;
+
+        return stream
+        .pipe(gulpif(process, browserify({
+          insertGlobals: false,
+          global: false,
+          debug: false
+        })))
+        .pipe(concat(filename + '.js'));
+}
+
 /**
  * Vendor elements
  */
@@ -285,9 +307,9 @@ function vendorScripts(options) {
 
   return gulp.src(mainNpmFiles())
     .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
-    .pipe(gulpif(addPaths, addsrc(getAddPaths())))
-    .pipe(order(getOrderBy().concat(['*'])))
-    .pipe(print());
+    .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
+    .pipe(flatmap(processVendor))
+    .pipe(order(getOrderBy().concat(['*'])));
 }
 
 function vendorCSSStyles(options) {
@@ -314,6 +336,9 @@ function buildVendorScripts(options) {
   var dest = getDestination(options);
   return vendorScripts(options)
     .pipe(stripDebug())
+    .pipe(gulpif(minimal, babel({
+      presets: ['env', 'minify']
+    })))
     .pipe(gulpif(minimal, concat('vendors.js')))
     .pipe(gulpif(minimal, uglify()))
     .pipe(gulp.dest(dest + '/js'));
@@ -372,8 +397,9 @@ function vendorTestScripts(options) {
 
   return gulp.src(mainNpmFiles())
     .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
-    .pipe(gulpif(addPaths, addsrc(getAddPaths())))
-    .pipe(gulpif(addTestPaths, addsrc(getAddTestPaths())))
+    .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
+    .pipe(gulpif(addTestPaths, !addTestPaths || addsrc(getAddTestPaths())))
+    .pipe(flatmap(processVendor))
     .pipe(order(getOrderBy().concat(['*'])));
 }
 
@@ -415,15 +441,14 @@ function buildIndexTest(options) {
     .pipe(inject(series(buildVendorTestScripts(options), buildScripts(options), buildAppTestScripts(options)), {
       ignorePath: dest,
       addRootSlash: false
-    }))
-    .pipe(gulp.dest(dest));
+    }));
 }
 
 function updateKarmaFile(options) {
   var configFile = getConfigFile(options);
   var dest = getDestination(options);
   return gulp.src(configFile)
-    .pipe(inject(series(vendorTestScripts(options), appScripts(), appTestsScripts()), {
+    .pipe(inject(series(buildVendorTestScripts(options), appScripts(), appTestsScripts()), {
       starttag: 'files: [',
       endtag: '],',
       relative: true,
@@ -431,7 +456,7 @@ function updateKarmaFile(options) {
         return '"' + filepath + '"' + (i + 1 < length ? ',' : '');
       }
     }))
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest('.'));
 }
 
 function register(_gulp, _options) {
