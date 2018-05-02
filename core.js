@@ -480,6 +480,7 @@ module.exports = {
   buildIcon: buildIcon,
   buildDocs: buildDocs,
   buildIndexTest: buildIndexTest,
+  buildAppTestScripts: buildAppTestScripts,
   updateKarmaFile: updateKarmaFile,
   paths: paths
 };

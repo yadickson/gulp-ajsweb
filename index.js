@@ -178,7 +178,21 @@ function tasks(gulp, options) {
     }).start();
   });
 
-  gulp.task('testHtml', () => {
+  gulp.task('test-scripts', () => {
+    return ajsweb.buildAppTestScripts({
+        dest: dest,
+        minimal: minimal
+      })
+      .pipe(connect.reload());
+  });
+
+  gulp.task('test-jshint', () => {
+    return ajsweb.appTestsScripts()
+      .pipe(jshint())
+      .pipe(jshint.reporter());
+  });
+
+  gulp.task('test-views', () => {
     return ajsweb.buildIndexTest({
         dest: dest,
         minimal: minimal
@@ -226,8 +240,8 @@ function tasks(gulp, options) {
   });
 
   gulp.task('watchtest', function() {
-    gulp.watch(ajsweb.paths.appScripts, ['scripts', 'jshint', 'testHtml']);
-    gulp.watch(ajsweb.paths.appTests, ['testHtml']);
+    gulp.watch(ajsweb.paths.appScripts, ['scripts', 'jshint', 'test-views']);
+    gulp.watch(ajsweb.paths.appTests, ['test-scripts', 'test-jshint', 'test-views']);
   });
 
   /**
@@ -267,7 +281,7 @@ function tasks(gulp, options) {
     return new Promise(resolve => {
       dest = 'build';
       minimal = false;
-      runSequence(['clean'], ['testHtml'], ['connect'], ['watchtest'], ['open'], resolve);
+      runSequence(['clean'], ['scripts'], ['jshint'], ['test-scripts'], ['test-jshint'], ['test-views'], ['connect'], ['watchtest'], ['open'], resolve);
     });
   });
 
