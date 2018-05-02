@@ -1,0 +1,13 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:minimatch:20160620':
+    - gulp-browserify > browserify > glob > minimatch:
+        patched: '2018-05-02T04:05:52.140Z'
+  'npm:uglify-js:20151024':
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2018-05-02T04:05:52.140Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-02T04:05:52.140Z'
