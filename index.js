@@ -188,7 +188,9 @@ function tasks(gulp, options) {
 
   gulp.task('test-jshint', () => {
     return ajsweb.appTestsScripts()
-      .pipe(jshint())
+      .pipe(jshint({
+        expr: true
+      }))
       .pipe(jshint.reporter());
   });
 
