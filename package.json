@@ -1,6 +1,6 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",
@@ -68,7 +68,7 @@
     "gulp-imagemin": "~4.1.0",
     "gulp-ngdocs-components": "~0.1.4",
     "gulp-order": "~1.1.1",
-    "gulp-sass": "~3.1.0",
-    "karma": "~1.7.1"
+    "gulp-sass": "~4.0.1",
+    "karma": "~2.0.2"
   }
 }

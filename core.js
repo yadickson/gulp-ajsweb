@@ -317,7 +317,7 @@ function vendorCSSStyles(options) {
 
   return gulp.src(styleNpmFiles())
     .pipe(filter('**/*.css'))
-    .pipe(gulpif(addCss, addsrc(getAddCss())));
+    .pipe(gulpif(addCss, !addCss || addsrc(getAddCss())));
 }
 
 function vendorSCSSStyles(options) {
@@ -325,7 +325,7 @@ function vendorSCSSStyles(options) {
 
   return gulp.src(styleNpmFiles())
     .pipe(filter('**/*.scss'))
-    .pipe(gulpif(addScss, addsrc(getAddScss())));
+    .pipe(gulpif(addScss, !addScss || addsrc(getAddScss())));
 }
 
 /**
