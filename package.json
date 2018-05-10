@@ -46,7 +46,7 @@
     "jshint": "~2.9.5",
     "karma-bro": "~0.11.1",
     "karma-chai": "~0.1.0",
-    "karma-coverage": "~1.1.1",
+    "karma-coverage": "~1.1.2",
     "karma-istanbul": "~0.0.2",
     "karma-junit-reporter": "~2.0.0",
     "karma-mocha": "~1.3.0",
@@ -54,7 +54,7 @@
     "karma-phantomjs-launcher": "~1.0.4",
     "karma-sinon": "~1.0.5",
     "merge-stream": "~1.0.1",
-    "mocha": "~4.0.1",
+    "mocha": "~5.0.3",
     "path": "~0.12.7",
     "run-sequence": "~2.2.0",
     "sinon": "~4.1.2",
@@ -75,9 +75,10 @@
     "snyk": "^1.80.0"
   },
   "scripts": {
+    "snyk-test": "snyk test",
+    "snyk-wizard": "snyk wizard",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },
   "snyk": true
 }
-
