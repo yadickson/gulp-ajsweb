@@ -17,12 +17,17 @@ let dest = 'dist';
 let port = 9100;
 let browser = 'firefox';
 let target = './';
+let buildPath = 'build';
+let distPath = 'dist';
 
 function tasks(gulp, options) {
 
   options = options || {};
 
   target = options.target || './';
+  buildPath = options.buildPath || 'build';
+  distPath = options.distPath || 'dist';
+
   options.addpaths = options.addpaths || [];
   options.addtestpaths = options.addtestpaths || [];
   options.excludepaths = options.excludepaths || [];
@@ -57,7 +62,7 @@ function tasks(gulp, options) {
   gulp.task('zip', () => {
     return gulp.src(dest + '/**')
       .pipe(zip(dest + '.zip'))
-      .pipe(gulp.dest(target));
+      .pipe(gulp.dest('.'));
   });
 
   /**
@@ -70,7 +75,7 @@ function tasks(gulp, options) {
   gulp.task('build', () => {
     return new Promise(resolve => {
       minimal = false;
-      dest = target + 'build';
+      dest = target + buildPath;
       runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
@@ -85,7 +90,7 @@ function tasks(gulp, options) {
   gulp.task('dist', () => {
     return new Promise(resolve => {
       minimal = true;
-      dest = target + 'dist';
+      dest = target + distPath;
       runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
@@ -107,7 +112,7 @@ function tasks(gulp, options) {
 
   gulp.task('scripts', () => {
     return ajsweb.buildScripts({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -115,7 +120,7 @@ function tasks(gulp, options) {
 
   gulp.task('styles', () => {
     return ajsweb.buildStyles({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -129,7 +134,7 @@ function tasks(gulp, options) {
 
   gulp.task('fonts', () => {
     return ajsweb.buildFonts({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -137,7 +142,7 @@ function tasks(gulp, options) {
 
   gulp.task('views', () => {
     return ajsweb.buildViews({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -145,7 +150,7 @@ function tasks(gulp, options) {
 
   gulp.task('images', () => {
     return ajsweb.buildImages({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -153,7 +158,7 @@ function tasks(gulp, options) {
 
   gulp.task('icon', () => {
     return ajsweb.buildIcon({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -161,7 +166,7 @@ function tasks(gulp, options) {
 
   gulp.task('js2docs', function() {
     return ajsweb.buildDocs({
-      dest: target + dest,
+      dest: dest,
       docpaths: ['vendors.js', 'app.js']
     });
   });
@@ -169,7 +174,7 @@ function tasks(gulp, options) {
   gulp.task('karma-cnf', () => {
     return ajsweb.updateKarmaFile({
       configFile: 'karma.conf.js',
-      dest: target + 'build'
+      dest: target + buildPath
     });
   });
 
@@ -182,7 +187,7 @@ function tasks(gulp, options) {
 
   gulp.task('test-scripts', () => {
     return ajsweb.buildAppTestScripts({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -196,7 +201,7 @@ function tasks(gulp, options) {
 
   gulp.task('test-views', () => {
     return ajsweb.buildIndexTest({
-        dest: target + dest,
+        dest: dest,
         minimal: minimal
       })
       .pipe(rename('index.html'))
@@ -281,7 +286,7 @@ function tasks(gulp, options) {
    */
   gulp.task('serve:test', function() {
     return new Promise(resolve => {
-      dest = target + 'build';
+      dest = target + buildPath;
       minimal = false;
       runSequence(['clean'], ['scripts'], ['jshint'], ['test-scripts'], ['test-jshint'], ['test-views'], ['connect'], ['watchtest'], ['open'], resolve);
     });
