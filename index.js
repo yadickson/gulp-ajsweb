@@ -16,11 +16,13 @@ let minimal = false;
 let dest = 'dist';
 let port = 9100;
 let browser = 'firefox';
+let target = './';
 
 function tasks(gulp, options) {
 
   options = options || {};
 
+  target = options.target || './';
   options.addpaths = options.addpaths || [];
   options.addtestpaths = options.addtestpaths || [];
   options.excludepaths = options.excludepaths || [];
@@ -55,7 +57,7 @@ function tasks(gulp, options) {
   gulp.task('zip', () => {
     return gulp.src(dest + '/**')
       .pipe(zip(dest + '.zip'))
-      .pipe(gulp.dest('.'));
+      .pipe(gulp.dest(target));
   });
 
   /**
@@ -68,7 +70,7 @@ function tasks(gulp, options) {
   gulp.task('build', () => {
     return new Promise(resolve => {
       minimal = false;
-      dest = 'build';
+      dest = target + 'build';
       runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
@@ -83,7 +85,7 @@ function tasks(gulp, options) {
   gulp.task('dist', () => {
     return new Promise(resolve => {
       minimal = true;
-      dest = 'dist';
+      dest = target + 'dist';
       runSequence(['clean'], ['compile'], ['zip'], resolve);
     });
   });
@@ -98,14 +100,14 @@ function tasks(gulp, options) {
   gulp.task('docs', () => {
     return new Promise(resolve => {
       minimal = true;
-      dest = 'docs';
+      dest = target + 'docs';
       runSequence(['clean'], ['compile'], ['js2docs'], ['zip'], resolve);
     });
   });
 
   gulp.task('scripts', () => {
     return ajsweb.buildScripts({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -113,7 +115,7 @@ function tasks(gulp, options) {
 
   gulp.task('styles', () => {
     return ajsweb.buildStyles({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -127,7 +129,7 @@ function tasks(gulp, options) {
 
   gulp.task('fonts', () => {
     return ajsweb.buildFonts({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -135,7 +137,7 @@ function tasks(gulp, options) {
 
   gulp.task('views', () => {
     return ajsweb.buildViews({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -143,7 +145,7 @@ function tasks(gulp, options) {
 
   gulp.task('images', () => {
     return ajsweb.buildImages({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -151,7 +153,7 @@ function tasks(gulp, options) {
 
   gulp.task('icon', () => {
     return ajsweb.buildIcon({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -159,7 +161,7 @@ function tasks(gulp, options) {
 
   gulp.task('js2docs', function() {
     return ajsweb.buildDocs({
-      dest: dest,
+      dest: target + dest,
       docpaths: ['vendors.js', 'app.js']
     });
   });
@@ -167,7 +169,7 @@ function tasks(gulp, options) {
   gulp.task('karma-cnf', () => {
     return ajsweb.updateKarmaFile({
       configFile: 'karma.conf.js',
-      dest: 'build'
+      dest: target + 'build'
     });
   });
 
@@ -180,7 +182,7 @@ function tasks(gulp, options) {
 
   gulp.task('test-scripts', () => {
     return ajsweb.buildAppTestScripts({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(connect.reload());
@@ -194,11 +196,11 @@ function tasks(gulp, options) {
 
   gulp.task('test-views', () => {
     return ajsweb.buildIndexTest({
-        dest: dest,
+        dest: target + dest,
         minimal: minimal
       })
       .pipe(rename('index.html'))
-      .pipe(gulp.dest(dest));
+      .pipe(gulp.dest(target + dest));
   });
 
   /**
@@ -279,7 +281,7 @@ function tasks(gulp, options) {
    */
   gulp.task('serve:test', function() {
     return new Promise(resolve => {
-      dest = 'build';
+      dest = target + 'build';
       minimal = false;
       runSequence(['clean'], ['scripts'], ['jshint'], ['test-scripts'], ['test-jshint'], ['test-views'], ['connect'], ['watchtest'], ['open'], resolve);
     });
