@@ -446,7 +446,6 @@ function buildIndexTest(options) {
 
 function updateKarmaFile(options) {
   var configFile = getConfigFile(options);
-  var dest = getDestination(options);
   return gulp.src(configFile)
     .pipe(inject(series(buildVendorTestScripts(options), appScripts(), appTestsScripts()), {
       starttag: 'files: [',

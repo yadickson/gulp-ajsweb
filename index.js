@@ -19,6 +19,7 @@ let browser = 'firefox';
 let target = './';
 let buildPath = 'build';
 let distPath = 'dist';
+let testVendor = './test/vendor/';
 
 function tasks(gulp, options) {
 
@@ -50,7 +51,11 @@ function tasks(gulp, options) {
    * @order {5}
    */
   gulp.task('clean', () => {
-    return del(['build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
+    return del([testVendor, 'build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
+  });
+
+  gulp.task('test-clean', () => {
+    return del([testVendor]);
   });
 
   gulp.task('compile', () => {
@@ -174,7 +179,7 @@ function tasks(gulp, options) {
   gulp.task('karma-cnf', () => {
     return ajsweb.updateKarmaFile({
       configFile: 'karma.conf.js',
-      dest: target + buildPath
+      dest: testVendor
     });
   });
 
@@ -217,7 +222,7 @@ function tasks(gulp, options) {
    */
   gulp.task('test', function() {
     return new Promise(resolve => {
-      runSequence(['clean'], ['jshint'], ['test-jshint'], ['karma-cnf'], ['karma-server'], resolve);
+      runSequence(['test-clean'], ['jshint'], ['test-jshint'], ['karma-cnf'], ['karma-server'], resolve);
     });
   });
 
