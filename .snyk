@@ -52,31 +52,31 @@ patch:
   'npm:debug:20170905':
     - gulp-connect > tiny-lr > body-parser > debug:
         patched: '2018-05-10T14:18:50.652Z'
-      gulp-connect > tiny-lr > debug:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-connect > tiny-lr > debug:
         patched: '2018-05-10T14:18:50.652Z'
-      gulp-connect > tiny-lr > body-parser > debug:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-connect > send > debug:
+        patched: '2018-05-10T14:47:18.709Z'
+    - gulp-connect > tiny-lr > debug:
+        patched: '2018-05-10T14:47:18.709Z'
+    - gulp-connect > tiny-lr > body-parser > debug:
         patched: '2018-05-10T14:47:18.709Z'
   'npm:minimatch:20160620':
     - karma-bro > watchify > chokidar > readdirp > minimatch:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > glob > minimatch:
-        patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > watchify > browserify > glob > minimatch:
         patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > browserify > glob > minimatch:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > watchify > chokidar > readdirp > minimatch:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-browserify > browserify > glob > minimatch:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > minimatch:
-        patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > minimatch:
         patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > glob > minimatch:
+        patched: '2018-05-10T14:47:18.709Z'
+    - karma-bro > watchify > chokidar > readdirp > minimatch:
+        patched: '2018-05-10T14:47:18.709Z'
+    - karma-bro > minimatch:
+        patched: '2018-05-10T14:47:18.709Z'
   'npm:ms:20170412':
     - gulp-connect > send > ms:
         patched: '2018-05-10T14:47:18.709Z'
@@ -89,77 +89,73 @@ patch:
   'npm:uglify-js:20150824':
     - gulp-browserify > browserify-shim > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-browserify > browserify-shim > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-browserify > browserify-shim > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-browserify > browserify-shim > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - gulp-browserify > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > umd > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
+        patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
+        patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
-    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:18:50.652Z'
+        patched: '2018-05-10T14:47:18.709Z'
   'npm:uglify-js:20151024':
     - gulp-browserify > browserify-shim > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:47:18.709Z'
     - karma-bro > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
-      karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
-        patched: '2018-05-10T14:47:18.709Z'
     - gulp-browserify > browserify > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
     - gulp-browserify > browserify > umd > uglify-js:
@@ -170,3 +166,10 @@ patch:
         patched: '2018-05-10T14:18:50.652Z'
     - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
         patched: '2018-05-10T14:18:50.652Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:47:18.709Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2018-05-10T14:47:18.709Z'
+  'npm:mime:20170907':
+    - gulp-connect > send > mime:
+        patched: '2018-06-26T04:31:53.065Z'
