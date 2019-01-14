@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - stable
+deploy:
+  provider: npm
+  email: yadickson@gmail.com
+  api_key: EgXy1DhiqkWBAyAOMK3c69l2BLnuyioHuLMZiygVPfapVUiSZvnK5s5xAybpVXdu9JiIvKEYIMLkZ+q5ihxvFGiomegAHcYZMfQU/sgoFLz0SmiODfJF0GVFUWmF6jkPo0au6zK4Gpjfh31L1268l18mgri4ousxePg5dMWF2oxIhPMHJ7fghrAvtcQCS9JlF6LoeoTDgAWrskvl4fDbYKzQhbPx5x7SugFogoLn5rKxkiNdgY8nyYlof2bv+7HmmFU8NYeZ5/UiZ9EtNcIPAj8/LDNWmCbaIb87V7v6QxYUx/I+isQ0ZQRmSRCguZ9RCIJNJ3IKtj2jurcX7Lmeg4pWohTB9kXB7Qf5CvXzOEzSKBrFV5hjeHb+G18dimKIT5LeBGJ4pjf0uG/grfR8yfPJNtHhZepZ7SAteyUtLq6ApqkMmYqEn+fgmUVD1svc+Udo/9D6nz9/RAc/IGzA6Oz5vkmyZmDvmq273uim7B4y0f96xrSN/N6eD1IFaqINyadbv+OHeJxnZsN7IaMt5BBs3LMEaF8/9HNvb0uNhrBHPNvczKYI/rxwIjE+ZiTYNFCKJGmUnyqo8W7Qxbl89vQvj8Io3hSDbEmHwyD1GILviVgok5lZIjqyYFWOmEWFXnhTLJox6/qPcewhxszViQw4Zi1WWLFBG+DGqdakgtc=
+  on:
+    tags: true
+

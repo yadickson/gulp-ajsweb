@@ -1,9 +1,7 @@
 # gulp-ajsweb
 Gulp Angular JS utils to build Web Application
 
-[![dependencies][dependencies-image]][dependencies-url]
-[![dev-dependencies][dev-dependencies-image]][dev-dependencies-url]
-[![Known Vulnerabilities][vulnerabilities-image]][vulnerabilities-url]
+[![TravisCI Status][travis-image]][travis-url]
 [![npm version][npm-image]][npm-url]
 
 ## Installation
@@ -78,11 +76,18 @@ gulp.task('default', ['help'], () => {});
 
 # ChangeLog
 
+ version 1.7.3 >= Target directory support
+
  version 1.6.8 >= Add browser support
+
  version 1.6.4 >= Update dependency versions
+
  version 1.6.3 >= Support gulp-zip
+
  version 1.6.2 >= Support gulp-help-doc
+
  version 1.6.0 >= Support gulp-help
+
  version 1.5.0 <= not supported, please see how to use the new version
 
 ## Generator ajsweb
@@ -93,14 +98,8 @@ See [generator-ajsweb](https://github.com/yadickson/generator-ajsweb)
 
 GPL-3.0 © [Yadickson Soto](https://github.com/yadickson)
 
-[dependencies-image]: https://david-dm.org/yadickson/gulp-ajsweb/status.svg
-[dependencies-url]: https://david-dm.org/yadickson/gulp-ajsweb?view=list
-
-[dev-dependencies-image]: https://david-dm.org/yadickson/gulp-ajsweb/dev-status.svg
-[dev-dependencies-url]: https://david-dm.org/yadickson/gulp-ajsweb?type=dev&view=list
-
-[vulnerabilities-image]: https://snyk.io/package/npm/gulp-ajsweb/badge.svg
-[vulnerabilities-url]: https://snyk.io/package/npm/gulp-ajsweb
+[travis-image]: https://travis-ci.org/yadickson/gulp-ajsweb.svg
+[travis-url]: https://travis-ci.org/yadickson/gulp-ajsweb
 
 [npm-image]: https://badge.fury.io/js/gulp-ajsweb.svg
 [npm-url]: https://badge.fury.io/js/gulp-ajsweb
