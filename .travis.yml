@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - stable
+before_deploy: "cat package.json"
 deploy:
   provider: npm
   email: yadickson@gmail.com
