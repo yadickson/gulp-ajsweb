@@ -82,7 +82,7 @@
     "snyk-test": "snyk test",
     "snyk-wizard": "snyk wizard",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk-protect || true"
   },
   "snyk": true,
   "publishConfig": {
