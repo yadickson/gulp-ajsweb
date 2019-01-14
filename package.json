@@ -1,10 +1,14 @@
 {
   "name": "gulp-ajsweb",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Gulp Angular JS utils to build Web Application",
   "main": "index.js",
   "repository": "https://github.com/yadickson/gulp-ajsweb",
   "author": "Yadickson Soto <yadickson@gmail.com>",
+  "files": [
+        "index.js",
+        "core.js"
+  ],
   "license": "GPL-3.0",
   "dependencies": {
     "babel-core": "~6.26.0",
