@@ -6,8 +6,8 @@
   "repository": "https://github.com/yadickson/gulp-ajsweb",
   "author": "Yadickson Soto <yadickson@gmail.com>",
   "files": [
-        "index.js",
-        "core.js"
+    "index.js",
+    "core.js"
   ],
   "license": "GPL-3.0",
   "dependencies": {
