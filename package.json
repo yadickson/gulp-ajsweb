@@ -74,7 +74,7 @@
     "gulp-order": "~1.1.1",
     "gulp-sass": "~4.0.1",
     "karma": "~2.0.2"
-  }
+  },
   "scripts": {
     "test": "echo 'Test not supported'"
   },
