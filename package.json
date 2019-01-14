@@ -74,17 +74,10 @@
     "gulp-order": "~1.1.1",
     "gulp-sass": "~4.0.1",
     "karma": "~2.0.2"
-  },
-  "devDependencies": {
-    "snyk": "^1.80.0"
-  },
+  }
   "scripts": {
-    "snyk-test": "snyk test",
-    "snyk-wizard": "snyk wizard",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect || true"
+    "test": "echo 'Test not supported'"
   },
-  "snyk": true,
   "publishConfig": {
     "access": "public"
   }
