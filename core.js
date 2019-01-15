@@ -86,6 +86,14 @@ function getExcludePaths() {
   return startOptions.excludepaths || [];
 }
 
+function isExcludeTestPaths() {
+  return getExcludeTestPaths().length > 0;
+}
+
+function getExcludeTestPaths() {
+  return startOptions.excludetestpaths || [];
+}
+
 function isAddTestPaths() {
   return getAddTestPaths().length > 0;
 }
@@ -171,7 +179,6 @@ function appIcon() {
  */
 function buildScripts(options) {
   var minimal = isMinimal(options);
-  var dest = getDestination(options);
   return appScripts()
     .pipe(gulpif(minimal, stripDebug()))
     .pipe(gulpif(minimal, babel({
@@ -179,12 +186,20 @@ function buildScripts(options) {
     })))
     .pipe(gulpif(minimal, concat('app.js')))
     .pipe(gulpif(minimal, uglify()))
-    .pipe(gulp.dest(dest + '/js'));
+    .pipe(gulp.dest('js'));
+}
+
+/**
+ * Build appliation elements and copy files
+ */
+function buildScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildScripts(options)
+    .pipe(gulp.dest(dest + '/' + 'js'));
 }
 
 function buildStyles(options) {
   var minimal = isMinimal(options);
-  var dest = getDestination(options);
   var lessStream = gulp.src(stylePath.lessStyles)
     .pipe(less());
 
@@ -227,17 +242,28 @@ function buildStyles(options) {
         return '../resource/' + url.replace(new RegExp('^.+\/'), '');
       }
     }))
+    .pipe(gulp.dest('css'));
+}
+
+function buildStylesAndCopy(options) {
+  var dest = getDestination(options);
+  return buildStyles(options)
     .pipe(gulp.dest(dest + '/css'));
 }
 
 function buildFonts(options) {
-  var dest = getDestination(options);
   var addFonts = isAddFonts(options);
   return appFonts()
     .pipe(gulpif(addFonts, getAddFonts(options)))
     .pipe(rename({
       dirname: ''
     }))
+    .pipe(gulp.dest('resource'));
+}
+
+function buildFontsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildFonts(options)
     .pipe(gulp.dest(dest + '/resource'));
 }
 
@@ -252,20 +278,28 @@ function buildViews(options) {
 }
 
 function buildImages(options) {
-  var dest = getDestination(options);
   return appImages()
     .pipe(cache(imagemin()))
+    .pipe(gulp.dest('resource'));
+}
+
+function buildImagesAndCopy(options) {
+  var dest = getDestination(options);
+  return buildImages(options)
     .pipe(gulp.dest(dest + '/resource'));
 }
 
 function buildIcon(options) {
+  return appIcon();
+}
+
+function buildIconAndCopy(options) {
   var dest = getDestination(options);
-  return appIcon()
+  return buildIcon(options)
     .pipe(gulp.dest(dest));
 }
 
 function buildDocs(options) {
-  var dest = getDestination(options);
   var options = {
     scripts: getDocPaths(options),
     html5Mode: true,
@@ -279,8 +313,13 @@ function buildDocs(options) {
     }))
     .pipe(removeLines({
       'filters': ['js/angular-animate.min.js']
-    }))
-    .pipe(gulp.dest(dest))
+    }));
+}
+
+function buildDocsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildDocs(options)
+    .pipe(gulp.dest(dest));
 }
 
 function processVendor(stream, file) {
@@ -306,9 +345,9 @@ function vendorScripts(options) {
   var exclude = isExcludePaths();
 
   return gulp.src(mainNpmFiles())
-    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
     .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
     .pipe(flatmap(processVendor))
+    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
     .pipe(order(getOrderBy().concat(['*'])));
 }
 
@@ -333,7 +372,6 @@ function vendorSCSSStyles(options) {
  */
 function buildVendorScripts(options) {
   var minimal = isMinimal(options);
-  var dest = getDestination(options);
   return vendorScripts(options)
     .pipe(stripDebug())
     .pipe(gulpif(minimal, babel({
@@ -341,6 +379,15 @@ function buildVendorScripts(options) {
     })))
     .pipe(gulpif(minimal, concat('vendors.js')))
     .pipe(gulpif(minimal, uglify()))
+    .pipe(gulp.dest('js'));
+}
+
+/**
+ * Build vendor elements and copy
+ */
+function buildVendorScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildVendorScripts(options)
     .pipe(gulp.dest(dest + '/js'));
 }
 
@@ -394,12 +441,14 @@ function vendorTestScripts(options) {
   var addPaths = isAddPaths();
   var addTestPaths = isAddTestPaths();
   var exclude = isExcludePaths();
+  var excludeTest = isExcludeTestPaths();
 
   return gulp.src(mainNpmFiles())
-    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
     .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
     .pipe(gulpif(addTestPaths, !addTestPaths || addsrc(getAddTestPaths())))
     .pipe(flatmap(processVendor))
+    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
+    .pipe(gulpif(excludeTest, filter(['**'].concat(getExcludeTestPaths()))))
     .pipe(order(getOrderBy().concat(['*'])));
 }
 
@@ -409,24 +458,48 @@ function vendorTestScripts(options) {
 function buildMochaTestScripts(options) {
   var dest = getDestination(options);
   return mochaTestScripts()
+    .pipe(gulp.dest('js'));
+}
+
+/**
+ * Build test elements
+ */
+function buildMochaTestScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildMochaTestScripts(options)
     .pipe(gulp.dest(dest + '/js'));
 }
 
 function buildMochaTestStyle(options) {
-  var dest = getDestination(options);
   return mochaTestStyles()
+    .pipe(gulp.dest('css'));
+}
+
+function buildMochaTestStyleAndCopy(options) {
+  var dest = getDestination(options);
+  return buildMochaTestStyle(options)
     .pipe(gulp.dest(dest + '/css'));
 }
 
 function buildAppTestScripts(options) {
-  var dest = getDestination(options);
   return appTestsScripts()
+    .pipe(gulp.dest('test'));
+}
+
+function buildAppTestScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildAppTestScripts(options)
     .pipe(gulp.dest(dest + '/test'));
 }
 
 function buildVendorTestScripts(options) {
-  var dest = getDestination(options);
   return vendorTestScripts(options)
+    .pipe(gulp.dest('js'));
+}
+
+function buildVendorTestScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildVendorTestScripts(options)
     .pipe(gulp.dest(dest + '/js'));
 }
 
@@ -471,15 +544,19 @@ module.exports = {
   appImages: appImages,
   appFonts: appFonts,
   appTestsScripts: appTestsScripts,
-  buildScripts: buildScripts,
-  buildStyles: buildStyles,
-  buildFonts: buildFonts,
+  buildScripts: buildScriptsAndCopy,
+  buildStyles: buildStylesAndCopy,
+  buildFonts: buildFontsAndCopy,
   buildViews: buildViews,
-  buildImages: buildImages,
-  buildIcon: buildIcon,
-  buildDocs: buildDocs,
+  buildImages: buildImagesAndCopy,
+  buildIcon: buildIconAndCopy,
+  buildDocs: buildDocsAndCopy,
   buildIndexTest: buildIndexTest,
-  buildAppTestScripts: buildAppTestScripts,
+  buildAppTestScripts: buildAppTestScriptsAndCopy,
+  buildVendorScripts: buildVendorScriptsAndCopy,
+  buildVendorTestScripts: buildVendorTestScriptsAndCopy,
+  buildMochaTestScripts: buildMochaTestScriptsAndCopy,
+  buildMochaTestStyle: buildMochaTestStyleAndCopy,
   updateKarmaFile: updateKarmaFile,
   paths: paths
 };

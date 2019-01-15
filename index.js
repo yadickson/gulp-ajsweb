@@ -15,6 +15,7 @@ let dev = true;
 let minimal = false;
 let dest = 'dist';
 let port = 9100;
+let karmaPort = 9200;
 let browser = 'firefox';
 let target = './';
 let buildPath = 'build';
@@ -32,6 +33,7 @@ function tasks(gulp, options) {
   options.addpaths = options.addpaths || [];
   options.addtestpaths = options.addtestpaths || [];
   options.excludepaths = options.excludepaths || [];
+  options.excludetestpaths = options.excludetestpaths || [];
   options.addcss = options.addcss || [];
   options.addscss = options.addscss || [];
   options.addfonts = options.addfonts || [];
@@ -39,6 +41,7 @@ function tasks(gulp, options) {
   options.orderBy = options.orderBy || [];
 
   port = options.port || port;
+  karmaPort = options.karmaPort || karmaPort;
   browser = options.browser || browser;
 
   ajsweb.register(gulp, options);
@@ -60,7 +63,7 @@ function tasks(gulp, options) {
 
   gulp.task('compile', () => {
     return new Promise(resolve => {
-      runSequence(['scripts'], ['styles'], ['jshint'], ['fonts'], ['images'], ['icon'], ['views'], resolve);
+      runSequence(['scripts'], ['styles'], ['jshint'], ['fonts'], ['images'], ['icon'], ['views'], ['vendor'], resolve);
     });
   });
 
@@ -153,6 +156,34 @@ function tasks(gulp, options) {
       .pipe(connect.reload());
   });
 
+  gulp.task('vendor', () => {
+    return ajsweb.buildVendorScripts({
+        dest: dest,
+        minimal: minimal
+      });
+  });
+
+  gulp.task('test-vendor', () => {
+    return ajsweb.buildVendorTestScripts({
+        dest: dest,
+        minimal: minimal
+      });
+  });
+
+  gulp.task('test-mocha-vendor', () => {
+    return ajsweb.buildMochaTestScripts({
+        dest: dest,
+        minimal: minimal
+      });
+  });
+
+  gulp.task('test-mocha-style', () => {
+    return ajsweb.buildMochaTestStyle({
+        dest: dest,
+        minimal: minimal
+      });
+  });
+
   gulp.task('images', () => {
     return ajsweb.buildImages({
         dest: dest,
@@ -186,7 +217,8 @@ function tasks(gulp, options) {
   gulp.task('karma-server', () => {
     return new karma({
       configFile: __dirname + '/../../karma.conf.js',
-      singleRun: true
+      singleRun: true,
+      port: karmaPort
     }).start();
   });
 
@@ -293,7 +325,7 @@ function tasks(gulp, options) {
     return new Promise(resolve => {
       dest = target + buildPath;
       minimal = false;
-      runSequence(['clean'], ['scripts'], ['jshint'], ['test-scripts'], ['test-jshint'], ['test-views'], ['connect'], ['watchtest'], ['open'], resolve);
+      runSequence(['clean'], ['scripts'], ['jshint'], ['test-scripts'], ['test-vendor'], ['test-mocha-vendor'], ['test-mocha-style'], ['test-jshint'], ['test-views'], ['connect'], ['watchtest'], ['open'], resolve);
     });
   });
 
