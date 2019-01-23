@@ -257,8 +257,7 @@ function buildFonts(options) {
     .pipe(gulpif(addFonts, getAddFonts(options)))
     .pipe(rename({
       dirname: ''
-    }))
-    .pipe(gulp.dest('resource'));
+    }));
 }
 
 function buildFontsAndCopy(options) {
@@ -279,8 +278,7 @@ function buildViews(options) {
 
 function buildImages(options) {
   return appImages()
-    .pipe(cache(imagemin()))
-    .pipe(gulp.dest('resource'));
+    .pipe(cache(imagemin()));
 }
 
 function buildImagesAndCopy(options) {
@@ -560,3 +558,4 @@ module.exports = {
   updateKarmaFile: updateKarmaFile,
   paths: paths
 };
+
