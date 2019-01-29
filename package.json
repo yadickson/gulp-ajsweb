@@ -62,7 +62,8 @@
     "path": "~0.12.7",
     "run-sequence": "~2.2.0",
     "sinon": "~4.1.2",
-    "stream-series": "~0.1.1"
+    "stream-series": "~0.1.1",
+    "snyk": "^1.123.0"
   },
   "peerDependencies": {
     "angular": "~1.6.6",
@@ -76,9 +77,12 @@
     "karma": "~2.0.2"
   },
   "scripts": {
-    "test": "echo 'Test not supported'"
+    "test": "echo 'Test not supported'",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
