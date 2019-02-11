@@ -1,10 +1,12 @@
-# gulp-ajsweb
+gulp-ajsweb
+===========
+
 Gulp Angular JS utils to build Web Application
 
-[![TravisCI Status][travis-image]][travis-url]
-[![npm version][npm-image]][npm-url]
+[![TravisCI Status](https://travis-ci.org/yadickson/gulp-ajsweb.svg)](https://travis-ci.org/yadickson/gulp-ajsweb)[![npm version](https://badge.fury.io/js/gulp-ajsweb.svg)](https://badge.fury.io/js/gulp-ajsweb)
 
-## Installation
+Installation
+------------
 
 Simply run a install using your terminal and you're good to go!
 
@@ -18,7 +20,8 @@ If you're a cool kid using Yarn then simply just use yarn as you would
 yarn add gulp karma angular@~1.6.0 angular-animate@~1.6.0 gulp-add-src gulp-imagemin gulp-ngdocs-components gulp-order gulp-sass gulp-ajsweb
 ```
 
-## How to use
+How to use
+----------
 
 ```JavaScript
 let addpaths = [
@@ -52,54 +55,59 @@ let notprocess = [
 let orderBy = [
   'jquery.js',
   'angular.js',
+  'angular-mocks.js',
   'angular-*.js',
   'bootstrap.js',
   'bootstrap-*.js'
 ];
 
 let options = {
+  target: './',
+  buildPath: 'build',
+  distPath: 'dist',
   addpaths: addpaths,
   addtestpaths: addtestpaths,
   excludepaths: excludepaths,
+  excludetestpaths: excludetestpaths,
   addcss: addcss,
   addscss: addscss,
   addfonts: addfonts,
   orderBy: orderBy,
   notprocess: notprocess,
   browser: 'firefox',
-  port: 9100
+  port: 9500,
+  karmaPort: 9600
 };
 
 let gulp = require("gulp-ajsweb")(require('gulp'), options);
 gulp.task('default', ['help'], () => {});
 ```
 
-# ChangeLog
+ChangeLog
+=========
 
- version 1.7.3 >= Target directory support
+version 1.7.6 >= Sonar support
 
- version 1.6.8 >= Add browser support
+version 1.7.3 >= Target directory support
 
- version 1.6.4 >= Update dependency versions
+version 1.6.8 >= Add browser support
 
- version 1.6.3 >= Support gulp-zip
+version 1.6.4 >= Update dependency versions
 
- version 1.6.2 >= Support gulp-help-doc
+version 1.6.3 >= Support gulp-zip
 
- version 1.6.0 >= Support gulp-help
+version 1.6.2 >= Support gulp-help-doc
 
- version 1.5.0 <= not supported, please see how to use the new version
+version 1.6.0 >= Support gulp-help
 
-## Generator ajsweb
+version 1.5.0 <= not supported, please see how to use the new version
+
+Generator ajsweb
+----------------
 
 See [generator-ajsweb](https://github.com/yadickson/generator-ajsweb)
 
-## License
+License
+-------
 
 GPL-3.0 © [Yadickson Soto](https://github.com/yadickson)
-
-[travis-image]: https://travis-ci.org/yadickson/gulp-ajsweb.svg
-[travis-url]: https://travis-ci.org/yadickson/gulp-ajsweb
-
-[npm-image]: https://badge.fury.io/js/gulp-ajsweb.svg
-[npm-url]: https://badge.fury.io/js/gulp-ajsweb

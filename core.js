@@ -257,7 +257,8 @@ function buildFonts(options) {
     .pipe(gulpif(addFonts, getAddFonts(options)))
     .pipe(rename({
       dirname: ''
-    }));
+    }))
+    .pipe(gulp.dest('resource'));
 }
 
 function buildFontsAndCopy(options) {
@@ -278,7 +279,8 @@ function buildViews(options) {
 
 function buildImages(options) {
   return appImages()
-    .pipe(cache(imagemin()));
+    .pipe(cache(imagemin()))
+    .pipe(gulp.dest('resource'));
 }
 
 function buildImagesAndCopy(options) {
@@ -322,17 +324,17 @@ function buildDocsAndCopy(options) {
 
 function processVendor(stream, file) {
 
-      var basepath = path.normalize(__dirname + path.sep + '..');
-      var filename = file.path.replace(basepath, '').split(path.sep)[1];
-      var process = getNotProcess().indexOf(filename) === -1;
+  var basepath = path.normalize(__dirname + path.sep + '..');
+  var filename = file.path.replace(basepath, '').split(path.sep)[1];
+  var process = getNotProcess().indexOf(filename) === -1;
 
-        return stream
-        .pipe(gulpif(process, browserify({
-          insertGlobals: false,
-          global: false,
-          debug: false
-        })))
-        .pipe(concat(filename + '.js'));
+  return stream
+    .pipe(gulpif(process, browserify({
+      insertGlobals: false,
+      global: false,
+      debug: false
+    })))
+    .pipe(concat(filename + '.js'));
 }
 
 /**
@@ -558,4 +560,3 @@ module.exports = {
   updateKarmaFile: updateKarmaFile,
   paths: paths
 };
-

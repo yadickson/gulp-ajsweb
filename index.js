@@ -10,6 +10,9 @@ const jshint = require("gulp-jshint");
 const rename = require("gulp-rename");
 const usage = require('gulp-help-doc');
 const zip = require('gulp-zip');
+const path = require('path');
+const sonar = require('gulp-sonar');
+const pjson = require(path.join(process.cwd(), 'package.json'));
 
 let dev = true;
 let minimal = false;
@@ -21,14 +24,19 @@ let target = './';
 let buildPath = 'build';
 let distPath = 'dist';
 let testVendor = './test/vendor/';
+let sonarServer = 'http://localhost:9000';
+let sonarSource = 'app/';
 
 function tasks(gulp, options) {
 
   options = options || {};
 
-  target = options.target || './';
-  buildPath = options.buildPath || 'build';
-  distPath = options.distPath || 'dist';
+  target = options.target || target;
+  buildPath = options.buildPath || buildPath;
+  distPath = options.distPath || distPath;
+
+  sonarServer = options.sonarServer || sonarServer;
+  sonarSource = options.sonarSource || sonarSource;
 
   options.addpaths = options.addpaths || [];
   options.addtestpaths = options.addtestpaths || [];
@@ -51,19 +59,74 @@ function tasks(gulp, options) {
    *
    * @task {clean}
    * @group {Basic tasks}
-   * @order {5}
+   * @order {10}
    */
+
   gulp.task('clean', () => {
+    return new Promise(resolve => {
+      runSequence(['clean-all'], ['clean-css-folder'], ['clean-js-folder'], ['clean-resource-folder'], resolve);
+    });
+  });
+
+  gulp.task('clean-all', () => {
     return del([testVendor, 'build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
+  });
+
+  gulp.task('clean-css-folder', () => {
+    return del('css');
+  });
+
+  gulp.task('clean-js-folder', () => {
+    return del('js');
+  });
+
+  gulp.task('clean-resource-folder', () => {
+    return del('resource');
   });
 
   gulp.task('test-clean', () => {
     return del([testVendor]);
   });
 
+  /**
+   * Run sonar.
+   *
+   * @task {sonar}
+   * @group {Basic tasks}
+   * @order {8}
+   */
+  gulp.task('sonar', () => {
+    var options = {
+      sonar: {
+        host: {
+          url: sonarServer
+        },
+        projectKey: 'sonar:' + pjson.name + ':' + pjson.version,
+        projectName: pjson.name,
+        projectVersion: pjson.version,
+        sources: sonarSource,
+        language: 'js',
+        sourceEncoding: 'UTF-8',
+        javascript: {
+          lcov: {
+            reportPath: 'coverage/lcov.info'
+          }
+        },
+        exec: {
+          maxBuffer: 1024 * 1024
+        }
+      }
+    };
+
+    return gulp.src('any.js', {
+        read: false
+      })
+      .pipe(sonar(options));
+  });
+
   gulp.task('compile', () => {
     return new Promise(resolve => {
-      runSequence(['scripts'], ['styles'], ['jshint'], ['fonts'], ['images'], ['icon'], ['views'], ['vendor'], resolve);
+      runSequence(['scripts'], ['styles'], ['jshint'], ['fonts'], ['images'], ['icon'], ['views'], ['vendor'], ['clean-js-folder'], ['clean-css-folder'], ['clean-resource-folder'], resolve);
     });
   });
 
@@ -158,30 +221,30 @@ function tasks(gulp, options) {
 
   gulp.task('vendor', () => {
     return ajsweb.buildVendorScripts({
-        dest: dest,
-        minimal: minimal
-      });
+      dest: dest,
+      minimal: minimal
+    });
   });
 
   gulp.task('test-vendor', () => {
     return ajsweb.buildVendorTestScripts({
-        dest: dest,
-        minimal: minimal
-      });
+      dest: dest,
+      minimal: minimal
+    });
   });
 
   gulp.task('test-mocha-vendor', () => {
     return ajsweb.buildMochaTestScripts({
-        dest: dest,
-        minimal: minimal
-      });
+      dest: dest,
+      minimal: minimal
+    });
   });
 
   gulp.task('test-mocha-style', () => {
     return ajsweb.buildMochaTestStyle({
-        dest: dest,
-        minimal: minimal
-      });
+      dest: dest,
+      minimal: minimal
+    });
   });
 
   gulp.task('images', () => {
@@ -216,8 +279,9 @@ function tasks(gulp, options) {
 
   gulp.task('karma-server', () => {
     return new karma({
-      configFile: __dirname + '/../../karma.conf.js',
+      configFile: path.join(process.cwd(), 'karma.conf.js'),
       singleRun: true,
+      autoWatch: false,
       port: karmaPort
     }).start();
   });
@@ -232,7 +296,9 @@ function tasks(gulp, options) {
 
   gulp.task('test-jshint', () => {
     return ajsweb.appTestsScripts()
-      .pipe(jshint({expr: true}))
+      .pipe(jshint({
+        expr: true
+      }))
       .pipe(jshint.reporter());
   });
 
@@ -275,11 +341,11 @@ function tasks(gulp, options) {
   });
 
   gulp.task('watch', function() {
-    gulp.watch(ajsweb.paths.appScripts, ['scripts', 'jshint']);
-    gulp.watch(ajsweb.paths.appStyles, ['styles']);
+    gulp.watch(ajsweb.paths.appScripts, ['scripts', 'jshint', 'clean-js-folder']);
+    gulp.watch(ajsweb.paths.appStyles, ['styles', 'clean-css-folder']);
     gulp.watch(ajsweb.paths.appViews, ['views']);
-    gulp.watch(ajsweb.paths.appImages, ['images']);
-    gulp.watch(ajsweb.paths.appFonts, ['fonts']);
+    gulp.watch(ajsweb.paths.appImages, ['images', 'clean-resource-folder']);
+    gulp.watch(ajsweb.paths.appFonts, ['fonts', 'clean-resource-folder']);
     gulp.watch(ajsweb.paths.appIcon, ['icons']);
   });
 
