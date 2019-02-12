@@ -3,7 +3,9 @@ gulp-ajsweb
 
 Gulp Angular JS utils to build Web Application
 
-[![TravisCI Status](https://travis-ci.org/yadickson/gulp-ajsweb.svg)](https://travis-ci.org/yadickson/gulp-ajsweb)[![npm version](https://badge.fury.io/js/gulp-ajsweb.svg)](https://badge.fury.io/js/gulp-ajsweb)
+[![TravisCI Status](https://travis-ci.org/yadickson/gulp-ajsweb.svg)](https://travis-ci.org/yadickson/gulp-ajsweb)
+[![Coverage Status][https://coveralls.io/repos/github/yadickson/gulp-ajsweb/badge.svg]][https://coveralls.io/github/yadickson/gulp-ajsweb]
+[![npm version](https://badge.fury.io/js/gulp-ajsweb.svg)](https://badge.fury.io/js/gulp-ajsweb)
 
 Installation
 ------------
@@ -115,3 +117,5 @@ License
 -------
 
 GPL-3.0 © [Yadickson Soto](https://github.com/yadickson)
+
+

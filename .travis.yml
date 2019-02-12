@@ -1,6 +1,7 @@
 language: node_js
 node_js:
 - stable
+after_success: npm run coveralls
 deploy:
   provider: npm
   email: yadickson@gmail.com
