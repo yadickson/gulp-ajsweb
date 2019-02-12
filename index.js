@@ -61,7 +61,6 @@ function tasks(gulp, options) {
    * @group {Basic tasks}
    * @order {10}
    */
-
   gulp.task('clean', () => {
     return new Promise(resolve => {
       runSequence(['clean-all'], ['clean-css-folder'], ['clean-js-folder'], ['clean-resource-folder'], resolve);
@@ -96,6 +95,12 @@ function tasks(gulp, options) {
    * @order {8}
    */
   gulp.task('sonar', () => {
+    return new Promise(resolve => {
+      runSequence(['clean'], ['test'], ['sonar-runner'], resolve);
+    });
+  });
+  
+  gulp.task('sonar-runner', () => {
     var options = {
       sonar: {
         host: {
@@ -277,13 +282,13 @@ function tasks(gulp, options) {
     });
   });
 
-  gulp.task('karma-server', () => {
-    return new karma({
+  gulp.task('karma-server', function (done) {
+    new karma({
       configFile: path.join(process.cwd(), 'karma.conf.js'),
       singleRun: true,
       autoWatch: false,
       port: karmaPort
-    }).start();
+    }, done).start();
   });
 
   gulp.task('test-scripts', () => {
