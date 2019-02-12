@@ -34,6 +34,8 @@ const flatmap = require('gulp-flatmap');
 const path = require('path');
 const resolveDependencies = require('gulp-resolve-dependencies');
 
+const appScriptModule = require('./libs/app-scripts')
+
 let gulp;
 let startOptions = {};
 
@@ -44,7 +46,6 @@ const stylePath = {
 };
 
 const paths = {
-  appScripts: ['app/scripts/**/*.js'],
   appStyles: [stylePath.lessStyles, stylePath.scssStyles, stylePath.cssStyles, '!README'],
   appViews: ['app/**/*.html'],
   appIcon: ['app/*.ico'],
@@ -142,12 +143,7 @@ function getDocPaths(options) {
  * Appliation elements
  */
 function appScripts() {
-  return gulp.src(paths.appScripts)
-    .pipe(order([
-      'main.js',
-      '*'
-    ]))
-    .pipe(resolveDependencies());
+  return gulp.src(appScriptModule.getScripts(startOptions));
 }
 
 function appStyles() {
@@ -300,14 +296,14 @@ function buildIconAndCopy(options) {
 }
 
 function buildDocs(options) {
-  var options = {
+  var docOptions = {
     scripts: getDocPaths(options),
     html5Mode: true,
     editExample: false
   };
 
   return appScripts()
-    .pipe(ngdocs.process(options))
+    .pipe(ngdocs.process(docOptions))
     .pipe(removeLines({
       'filters': ['js/angular.min.js']
     }))

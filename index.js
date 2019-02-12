@@ -25,7 +25,7 @@ let buildPath = 'build';
 let distPath = 'dist';
 let testVendor = './test/vendor/';
 let sonarServer = 'http://localhost:9000';
-let sonarSource = 'app/';
+let sourceDir = 'app';
 
 function tasks(gulp, options) {
 
@@ -36,7 +36,7 @@ function tasks(gulp, options) {
   distPath = options.distPath || distPath;
 
   sonarServer = options.sonarServer || sonarServer;
-  sonarSource = options.sonarSource || sonarSource;
+  sourceDir = options.sourceDir || sourceDir;
 
   options.addpaths = options.addpaths || [];
   options.addtestpaths = options.addtestpaths || [];
@@ -99,7 +99,7 @@ function tasks(gulp, options) {
       runSequence(['clean'], ['test'], ['sonar-runner'], resolve);
     });
   });
-  
+
   gulp.task('sonar-runner', () => {
     var options = {
       sonar: {
@@ -109,7 +109,7 @@ function tasks(gulp, options) {
         projectKey: 'sonar:' + pjson.name + ':' + pjson.version,
         projectName: pjson.name,
         projectVersion: pjson.version,
-        sources: sonarSource,
+        sources: sourceDir,
         language: 'js',
         sourceEncoding: 'UTF-8',
         javascript: {

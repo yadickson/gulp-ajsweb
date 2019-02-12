@@ -65,6 +65,7 @@ let options = {
   target: './',
   buildPath: 'build',
   distPath: 'dist',
+  sourceDir: 'app',
   addpaths: addpaths,
   addtestpaths: addtestpaths,
   excludepaths: excludepaths,
@@ -76,7 +77,8 @@ let options = {
   notprocess: notprocess,
   browser: 'firefox',
   port: 9500,
-  karmaPort: 9600
+  karmaPort: 9600,
+  sonarServer: 'http://localhost:9000'
 };
 
 let gulp = require("gulp-ajsweb")(require('gulp'), options);
@@ -85,6 +87,8 @@ gulp.task('default', ['help'], () => {});
 
 ChangeLog
 =========
+
+version 1.7.7 >= Fix bugs
 
 version 1.7.6 >= Sonar support
 

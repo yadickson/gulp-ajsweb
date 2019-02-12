@@ -5,4 +5,6 @@ dist/
 package-lock.json
 yarn*
 *.tgz
-
+coverage
+.nyc_output
+.snyk
