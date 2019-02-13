@@ -10,7 +10,7 @@
       let contents = [];
 
       const vFile = fs.src(input, {
-        base: '.'
+        base: process.cwd()
       });
 
       vFile

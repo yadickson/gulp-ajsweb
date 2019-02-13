@@ -2,8 +2,8 @@
   'use strict';
 
   /**
-   * @requires main.js
-   * @requires service.js
+   * @requires ../main.js
+   * @requires ../services/service.js
    */
 
   angular.module('AppModule')

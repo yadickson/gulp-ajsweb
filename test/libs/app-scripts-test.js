@@ -24,20 +24,27 @@
       assert.equal(src, 'app/scripts/**/*.js');
     });
 
-    it('Get Scripts Full', function(done) {
+    it('Get Scripts Default Path', function() {
+
+      var src = addScripts.getScripts({});
+
+      assert.equal(src, 'app/scripts/**/*.js');
+    });
+
+    it('Get Scripts Base', function(done) {
 
       var src = addScripts.getScripts({
         sourceDir: 'test/resource/app'
       });
 
-      mockListFile(src, addScripts.getScriptsFull())
+      mockListFile(src, addScripts.getScriptsBase({}))
         .then(output => {
           const contents = output;
 
           var expeted = [
-            path.join(__dirname, '../resource/app/scripts/main.js'),
-						path.join(__dirname, '../resource/app/scripts/service.js'),
-						path.join(__dirname, '../resource/app/scripts/controller.js')
+            path.join(process.cwd(), 'js/app/main.js'),
+            path.join(process.cwd(), 'js/app/services/service.js'),
+            path.join(process.cwd(), 'js/app/controllers/controller.js')
           ];
 
           expect(!!contents).to.be.true;
@@ -52,25 +59,25 @@
         });
     });
 
-    it('Get Scripts Base', function(done) {
+    it('Get Scripts Base Minimal', function(done) {
 
       var src = addScripts.getScripts({
         sourceDir: 'test/resource/app'
       });
 
-      mockListFile(src, addScripts.getScriptsBase())
+      mockListFile(src, addScripts.getScriptsBase({
+          minimal: true
+        }))
         .then(output => {
           const contents = output;
 
           var expeted = [
-            'js/scripts/main.js',
-						'js/scripts/service.js',
-						'js/scripts/controller.js'
+            path.join(process.cwd(), 'js/app.js')
           ];
 
           expect(!!contents).to.be.true;
           expect(contents).to.be.an('array')
-          expect(contents).to.have.lengthOf(3);
+          expect(contents).to.have.lengthOf(1);
           expect(contents).to.have.ordered.members(expeted)
 
           done();

@@ -2,7 +2,7 @@
   'use strict';
 
   /**
-   * @requires main.js
+   * @requires ../main.js
    */
 
   angular.module('AppModule')

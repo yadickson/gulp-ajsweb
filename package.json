@@ -68,12 +68,13 @@
   },
   "devDependencies": {
     "gulp": "~3.9.1",
+    "gulp-add-src": "~1.0.0",
     "gulp-order": "~1.1.1",
     "lazypipe": "^1.0.2",
     "map-stream": "0.0.7",
     "nyc": "^11.2.1",
     "rimraf": "^2.6.2",
-    "vinyl-fs": "~2.3.0"
+    "vinyl-fs": "~3.0.2"
   },
   "peerDependencies": {
     "angular": "~1.6.6",

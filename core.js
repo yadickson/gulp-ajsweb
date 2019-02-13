@@ -34,7 +34,8 @@ const flatmap = require('gulp-flatmap');
 const path = require('path');
 const resolveDependencies = require('gulp-resolve-dependencies');
 
-const appScriptModule = require('./libs/app-scripts')
+const appScriptModule = require('./libs/app-scripts');
+const vendorScriptModule = require('./libs/vendor-scripts');
 
 let gulp;
 let startOptions = {};
@@ -140,10 +141,21 @@ function getDocPaths(options) {
 }
 
 /**
- * Appliation elements
+ * Application elements
  */
 function appScripts() {
-  return gulp.src(appScriptModule.getScripts(startOptions));
+  return gulp.src(appScriptModule.getScripts(startOptions), {
+    base: process.cwd()
+  });
+}
+
+/**
+ * Vendor elements
+ */
+function vendorScripts() {
+  return gulp.src(mainNpmFiles(), {
+    base: process.cwd()
+  });
 }
 
 function appStyles() {
@@ -171,27 +183,43 @@ function appIcon() {
 }
 
 /**
- * Build appliation elements
+ * Build application elements
  */
 function buildScripts(options) {
-  var minimal = isMinimal(options);
+  startOptions.minimal = isMinimal(options);
   return appScripts()
-    .pipe(gulpif(minimal, stripDebug()))
-    .pipe(gulpif(minimal, babel({
-      presets: ['env', 'minify']
-    })))
-    .pipe(gulpif(minimal, concat('app.js')))
-    .pipe(gulpif(minimal, uglify()))
-    .pipe(gulp.dest('js'));
+    .pipe(appScriptModule.getScriptsBase(startOptions)());
 }
 
 /**
- * Build appliation elements and copy files
+ * Build application elements and copy files
  */
 function buildScriptsAndCopy(options) {
   var dest = getDestination(options);
-  return buildScripts(options)
-    .pipe(gulp.dest(dest + '/' + 'js'));
+  startOptions.minimal = isMinimal(options);
+  return appScripts()
+    .pipe(appScriptModule.getScriptsFull(startOptions)())
+    .pipe(gulp.dest(dest));
+}
+
+/**
+ * Build vendor elements
+ */
+function buildVendorScripts(options) {
+  startOptions.minimal = isMinimal(options);
+  return vendorScripts()
+    .pipe(vendorScriptModule.getScriptsBase(startOptions)());
+}
+
+/**
+ * Build vendor elements and copy
+ */
+function buildVendorScriptsAndCopy(options) {
+  startOptions.minimal = isMinimal(options);
+  var dest = getDestination(options);
+  return vendorScripts()
+    .pipe(vendorScriptModule.getScriptsFull(startOptions)())
+    .pipe(gulp.dest(dest));
 }
 
 function buildStyles(options) {
@@ -318,35 +346,6 @@ function buildDocsAndCopy(options) {
     .pipe(gulp.dest(dest));
 }
 
-function processVendor(stream, file) {
-
-  var basepath = path.normalize(__dirname + path.sep + '..');
-  var filename = file.path.replace(basepath, '').split(path.sep)[1];
-  var process = getNotProcess().indexOf(filename) === -1;
-
-  return stream
-    .pipe(gulpif(process, browserify({
-      insertGlobals: false,
-      global: false,
-      debug: false
-    })))
-    .pipe(concat(filename + '.js'));
-}
-
-/**
- * Vendor elements
- */
-function vendorScripts(options) {
-  var addPaths = isAddPaths();
-  var exclude = isExcludePaths();
-
-  return gulp.src(mainNpmFiles())
-    .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
-    .pipe(flatmap(processVendor))
-    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
-    .pipe(order(getOrderBy().concat(['*'])));
-}
-
 function vendorCSSStyles(options) {
   var addCss = isAddCss();
 
@@ -361,30 +360,6 @@ function vendorSCSSStyles(options) {
   return gulp.src(styleNpmFiles())
     .pipe(filter('**/*.scss'))
     .pipe(gulpif(addScss, !addScss || addsrc(getAddScss())));
-}
-
-/**
- * Build vendor elements
- */
-function buildVendorScripts(options) {
-  var minimal = isMinimal(options);
-  return vendorScripts(options)
-    .pipe(stripDebug())
-    .pipe(gulpif(minimal, babel({
-      presets: ['env', 'minify']
-    })))
-    .pipe(gulpif(minimal, concat('vendors.js')))
-    .pipe(gulpif(minimal, uglify()))
-    .pipe(gulp.dest('js'));
-}
-
-/**
- * Build vendor elements and copy
- */
-function buildVendorScriptsAndCopy(options) {
-  var dest = getDestination(options);
-  return buildVendorScripts(options)
-    .pipe(gulp.dest(dest + '/js'));
 }
 
 /**
