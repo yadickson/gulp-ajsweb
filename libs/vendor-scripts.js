@@ -15,6 +15,8 @@
   const addsrc = require('gulp-add-src').append;
   const filter = require('gulp-filter');
 
+  const opt = require('./options');
+
   function matchInArray(string, array) {
     var i;
     var input = string.replace(/[\/\.\\\@]/g, '_');
@@ -33,14 +35,23 @@
 
   };
 
-  function get_scripts_base(options) {
-    var minimal = options.minimal === true;
-    var orderBy = options.orderBy || [];
-    var addpaths = options.addpaths || [];
-    var isaddpaths = addpaths.length > 0;
-    var excludepaths = options.excludepaths || [];
-    var isexcludepaths = excludepaths.length > 0;
-    var notprocess = options.notprocess || [];
+  function process_scripts() {
+    return lazypipe()
+      .pipe(stripDebug)
+      .pipe(babel, {
+        presets: ['env', 'minify']
+      })
+      .pipe(uglify);
+  }
+
+  function get_scripts(options) {
+    var minimal = opt.isMinimal(options);
+    var orderBy = opt.getOrderBy(options);
+    var addpaths = opt.getAddPaths(options);
+    var isaddpaths = opt.isAddPaths(options);
+    var excludepaths = opt.getExcludePaths(options);
+    var isexcludepaths = opt.isExcludePaths(options);
+    var notprocess = opt.getNotProcess(options);
 
     return lazypipe()
       .pipe(gulpif, isaddpaths, !isaddpaths || addsrc(addpaths, {
@@ -51,7 +62,7 @@
 
         var dirname = file.path;
         var filename = dirname.replace(/.*\/node_modules\/(.*?)\/.*/g, '$1.js');
-        var isprocess = matchInArray(file.path, notprocess);
+        var isprocess = opt.isProcess(options) && matchInArray(file.path, notprocess);
 
         return stream
           .pipe(gulpif(isprocess, !isprocess || browserify({
@@ -61,12 +72,8 @@
           })))
           .pipe(concat(filename));
       })
-      .pipe(gulpif, minimal, !minimal || stripDebug())
       .pipe(order, orderBy.concat(['*']))
-      .pipe(gulpif, minimal, !minimal || babel({
-        presets: ['env', 'minify']
-      }))
-      .pipe(gulpif, minimal, !minimal || uglify())
+      .pipe(gulpif, process, !process || process_scripts()())
       .pipe(rename, function(path) {
         path.dirname = 'js/vendor/';
         return path;
@@ -74,7 +81,18 @@
       .pipe(gulpif, minimal, !minimal || concat('js/vendor.js'));
   }
 
+  function get_scripts_base(options) {
+    options.process = false;
+    return get_scripts(options);
+  }
+
+  function get_scripts_full(options) {
+    options.process = true;
+    return get_scripts(options);
+  }
+
   module.exports = {
-    getScriptsBase: get_scripts_base
+    getScriptsBase: get_scripts_base,
+    getScriptsFull: get_scripts_full
   };
 })();

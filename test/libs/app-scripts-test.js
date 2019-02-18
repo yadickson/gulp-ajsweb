@@ -6,38 +6,24 @@
   const should = require('chai').should();
 
   const path = require('path');
-  const addScripts = require('../../libs/app-scripts');
+
+  const appFiles = require('../../libs/app-files');
+  const appScripts = require('../../libs/app-scripts');
   const mockListFile = require('../mock/mock-list-file');
 
   describe('app scripts', function() {
 
-    it('Initialize addScripts', function() {
-      expect(!!addScripts).to.be.true;
-    });
-
-    it('Get Scripts', function() {
-
-      var src = addScripts.getScripts({
-        sourceDir: 'app'
-      });
-
-      assert.equal(src, 'app/scripts/**/*.js');
-    });
-
-    it('Get Scripts Default Path', function() {
-
-      var src = addScripts.getScripts({});
-
-      assert.equal(src, 'app/scripts/**/*.js');
+    it('Initialize appScripts', function() {
+      expect(!!appScripts).to.be.true;
     });
 
     it('Get Scripts Base', function(done) {
 
-      var src = addScripts.getScripts({
+      var src = appFiles.getScripts({
         sourceDir: 'test/resource/app'
       });
 
-      mockListFile(src, addScripts.getScriptsBase({}))
+      mockListFile(src, appScripts.getScriptsBase({}))
         .then(output => {
           const contents = output;
 
@@ -61,11 +47,67 @@
 
     it('Get Scripts Base Minimal', function(done) {
 
-      var src = addScripts.getScripts({
+      var src = appFiles.getScripts({
         sourceDir: 'test/resource/app'
       });
 
-      mockListFile(src, addScripts.getScriptsBase({
+      mockListFile(src, appScripts.getScriptsBase({
+          minimal: true
+        }))
+        .then(output => {
+          const contents = output;
+
+          var expeted = [
+            path.join(process.cwd(), 'js/app.js')
+          ];
+
+          expect(!!contents).to.be.true;
+          expect(contents).to.be.an('array')
+          expect(contents).to.have.lengthOf(1);
+          expect(contents).to.have.ordered.members(expeted)
+
+          done();
+        })
+        .catch(e => {
+          done(e)
+        });
+    });
+
+    it('Get Scripts Full', function(done) {
+
+      var src = appFiles.getScripts({
+        sourceDir: 'test/resource/app'
+      });
+
+      mockListFile(src, appScripts.getScriptsFull({}))
+        .then(output => {
+          const contents = output;
+
+          var expeted = [
+            path.join(process.cwd(), 'js/app/main.js'),
+            path.join(process.cwd(), 'js/app/services/service.js'),
+            path.join(process.cwd(), 'js/app/controllers/controller.js')
+          ];
+
+          expect(!!contents).to.be.true;
+          expect(contents).to.be.an('array')
+          expect(contents).to.have.lengthOf(3);
+          expect(contents).to.have.ordered.members(expeted)
+
+          done();
+        })
+        .catch(e => {
+          done(e)
+        });
+    });
+
+    it('Get Scripts Full Minimal', function(done) {
+
+      var src = appFiles.getScripts({
+        sourceDir: 'test/resource/app'
+      });
+
+      mockListFile(src, appScripts.getScriptsFull({
           minimal: true
         }))
         .then(output => {

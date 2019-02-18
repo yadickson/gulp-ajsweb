@@ -34,6 +34,7 @@ const flatmap = require('gulp-flatmap');
 const path = require('path');
 const resolveDependencies = require('gulp-resolve-dependencies');
 
+const appFilesModule = require('./libs/app-files');
 const appScriptModule = require('./libs/app-scripts');
 const vendorScriptModule = require('./libs/vendor-scripts');
 
@@ -144,7 +145,7 @@ function getDocPaths(options) {
  * Application elements
  */
 function appScripts() {
-  return gulp.src(appScriptModule.getScripts(startOptions), {
+  return gulp.src(appFilesModule.getScripts(startOptions), {
     base: process.cwd()
   });
 }
