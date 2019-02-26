@@ -41,20 +41,20 @@
     return getOptions(options).excludepaths || [];
   }
 
-  function isExcludeTestPaths(options) {
-    return getExcludeTestPaths(options).length > 0;
-  }
-
-  function getExcludeTestPaths(options) {
-    return getOptions(options).excludetestpaths || [];
-  }
-
   function isAddTestPaths(options) {
     return getAddTestPaths(options).length > 0;
   }
 
   function getAddTestPaths(options) {
     return getOptions(options).addtestpaths || [];
+  }
+
+  function isExcludeTestPaths(options) {
+    return getExcludeTestPaths(options).length > 0;
+  }
+
+  function getExcludeTestPaths(options) {
+    return getOptions(options).excludetestpaths || [];
   }
 
   function isAddCss(options) {
@@ -94,15 +94,18 @@
   }
 
   module.exports = {
-		getOptions: getOptions,
+    getOptions: getOptions,
     getSourceDir: getSourceDir,
     isMinimal: isMinimal,
     isProcess: isProcess,
-    getOrderBy: getOrderBy,
+    getDestination: getDestination,
+    getConfigFile: getConfigFile,
     isAddPaths: isAddPaths,
     getAddPaths: getAddPaths,
     isExcludePaths: isExcludePaths,
     getExcludePaths: getExcludePaths,
-    getNotProcess: getNotProcess
+    getNotProcess: getNotProcess,
+    getOrderBy: getOrderBy,
+    getDocPaths: getDocPaths
   };
 })();

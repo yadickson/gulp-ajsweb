@@ -46,5 +46,52 @@
       expect(minimal).to.be.false;
     });
 
+    it('Get Source Dir Default', function() {
+      var src = opt.getSourceDir();
+      should.exist(src);
+      assert.equal(src, 'app');
+    });
+
+    it('Get Source Dir Value', function() {
+      var src = opt.getSourceDir({
+        sourceDir: 'xyz'
+      });
+      should.exist(src);
+      assert.equal(src, 'xyz');
+    });
+
+    it('Get Process Default False', function() {
+      var process = opt.isProcess();
+      expect(process).to.be.false;
+    });
+
+    it('Get Process True', function() {
+      var process = opt.isProcess({
+        process: true
+      });
+      expect(process).to.be.true;
+    });
+
+    it('Get Process False', function() {
+      var process = opt.isProcess({
+        process: false
+      });
+      expect(process).to.be.false;
+    });
+
+    it('Get Destination Dir Default', function() {
+      var src = opt.getDestination();
+      should.exist(src);
+      assert.equal(src, 'build');
+    });
+
+    it('Get Destination Dir Value', function() {
+      var src = opt.getDestination({
+        dest: 'xyz'
+      });
+      should.exist(src);
+      assert.equal(src, 'xyz');
+    });
+
   });
 })();
