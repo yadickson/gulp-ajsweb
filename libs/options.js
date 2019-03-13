@@ -5,6 +5,14 @@
     return options || {};
   }
 
+  function getRenameVendor(options) {
+    var value = getOptions(options).renameVendor;
+    if (value === undefined) {
+      return true;
+    }
+    return value === true;
+  }
+
   function getSourceDir(options) {
     return getOptions(options).sourceDir || 'app';
   }
@@ -99,6 +107,7 @@
 
   module.exports = {
     getOptions: getOptions,
+    getRenameVendor: getRenameVendor,
     getSourceDir: getSourceDir,
     getTestDir: getTestDir,
     isMinimal: isMinimal,

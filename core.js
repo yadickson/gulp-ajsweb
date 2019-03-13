@@ -38,6 +38,7 @@ const appFilesModule = require('./libs/app-files');
 const appScriptModule = require('./libs/app-scripts');
 const appTestScriptModule = require('../libs/app-test-scripts');
 const vendorScriptModule = require('./libs/vendor-scripts');
+const vendorTestScriptModule = require('./libs/vendor-test-scripts');
 
 let gulp;
 let startOptions = {};
@@ -234,6 +235,22 @@ function appTestsScripts() {
     .pipe(appTestScriptModule.getScripts(startOptions)());
 }
 
+/**
+ * Test vendor scripts
+ */
+function buildVendorTestScripts() {
+  return gulp.src(mainNpmFiles(), {
+      base: process.cwd()
+    })
+    .pipe(vendorTestScriptModule.getScripts(startOptions)());
+}
+
+function buildVendorTestScriptsAndCopy(options) {
+  var dest = getDestination(options);
+  return buildVendorTestScripts()
+    .pipe(gulp.dest(dest));
+}
+
 function buildStyles(options) {
   var minimal = isMinimal(options);
   var lessStream = gulp.src(stylePath.lessStyles)
@@ -397,24 +414,6 @@ function mochaTestStyles() {
 }
 
 /**
- * Test vendor scripts
- */
-function vendorTestScripts(options) {
-  var addPaths = isAddPaths();
-  var addTestPaths = isAddTestPaths();
-  var exclude = isExcludePaths();
-  var excludeTest = isExcludeTestPaths();
-
-  return gulp.src(mainNpmFiles())
-    .pipe(gulpif(addPaths, !addPaths || addsrc(getAddPaths())))
-    .pipe(gulpif(addTestPaths, !addTestPaths || addsrc(getAddTestPaths())))
-    .pipe(flatmap(processVendor))
-    .pipe(gulpif(exclude, filter(['**'].concat(getExcludePaths()))))
-    .pipe(gulpif(excludeTest, filter(['**'].concat(getExcludeTestPaths()))))
-    .pipe(order(getOrderBy().concat(['*'])));
-}
-
-/**
  * Build test elements
  */
 function buildMochaTestScripts(options) {
@@ -452,17 +451,6 @@ function buildAppTestScriptsAndCopy(options) {
   var dest = getDestination(options);
   return buildAppTestScripts(options)
     .pipe(gulp.dest(dest + '/test'));
-}
-
-function buildVendorTestScripts(options) {
-  return vendorTestScripts(options)
-    .pipe(gulp.dest('js'));
-}
-
-function buildVendorTestScriptsAndCopy(options) {
-  var dest = getDestination(options);
-  return buildVendorTestScripts(options)
-    .pipe(gulp.dest(dest + '/js'));
 }
 
 function buildIndexTest(options) {

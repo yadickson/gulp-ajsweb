@@ -44,6 +44,14 @@
       .pipe(uglify);
   }
 
+  function rename_scripts() {
+    return lazypipe()
+      .pipe(rename, function(path) {
+        path.dirname = 'js/vendor/';
+        return path;
+      });
+  }
+
   function get_scripts(options) {
     var minimal = opt.isMinimal(options);
     var orderBy = opt.getOrderBy(options);
@@ -52,6 +60,7 @@
     var excludepaths = opt.getExcludePaths(options);
     var isexcludepaths = opt.isExcludePaths(options);
     var notprocess = opt.getNotProcess(options);
+    var isRename = opt.getRenameVendor(options);
 
     return lazypipe()
       .pipe(gulpif, isaddpaths, !isaddpaths || addsrc(addpaths, {
@@ -74,10 +83,7 @@
       })
       .pipe(order, orderBy.concat(['*']))
       .pipe(gulpif, process, !process || process_scripts()())
-      .pipe(rename, function(path) {
-        path.dirname = 'js/vendor/';
-        return path;
-      })
+      .pipe(gulpif, isRename, !isRename || rename_scripts()())
       .pipe(gulpif, minimal, !minimal || concat('js/vendor.js'));
   }
 

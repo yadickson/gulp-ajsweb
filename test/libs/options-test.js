@@ -27,6 +27,25 @@
       expect(options).to.have.property('test').to.be.false;
     });
 
+    it('Get Rename Vendor Default False', function() {
+      var value = opt.getRenameVendor();
+      expect(value).to.be.true;
+    });
+
+    it('Get Rename Vendor True', function() {
+      var value = opt.getRenameVendor({
+        renameVendor: true
+      });
+      expect(value).to.be.true;
+    });
+
+    it('Get Rename Vendor False', function() {
+      var value = opt.getRenameVendor({
+        renameVendor: false
+      });
+      expect(value).to.be.false;
+    });
+
     it('Get Minimal Default False', function() {
       var minimal = opt.isMinimal();
       expect(minimal).to.be.false;
