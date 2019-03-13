@@ -9,7 +9,7 @@
   }
 
 	  function get_test_scripts(options) {
-	    var src = opt.getSourceDir(options);
+	    var src = opt.getTestDir(options);
 	    return [src + '/spec/**/*.js'];
 	  }
 

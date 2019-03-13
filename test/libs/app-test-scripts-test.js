@@ -20,7 +20,7 @@
     it('Get Test Scripts', function(done) {
 
       var src = appFiles.getTestScripts({
-        sourceDir: 'test/resource/test'
+        testDir: 'test/resource/test'
       });
 
       mockListFile(src, appTestScript.getScripts({}))

@@ -16,10 +16,10 @@
     it('Get Scripts', function() {
 
       var src = appFiles.getScripts({
-        sourceDir: 'app'
+        sourceDir: 'src'
       });
 
-      assert.equal(src, 'app/scripts/**/*.js');
+      assert.equal(src, 'src/scripts/**/*.js');
     });
 
     it('Get Scripts Default Path', function() {
@@ -27,6 +27,22 @@
       var src = appFiles.getScripts({});
 
       assert.equal(src, 'app/scripts/**/*.js');
+    });
+
+    it('Get Test Scripts', function() {
+
+      var src = appFiles.getTestScripts({
+        testDir: 'src/test'
+      });
+
+      assert.equal(src, 'src/test/spec/**/*.js');
+    });
+
+    it('Get Test Scripts Default Path', function() {
+
+      var src = appFiles.getTestScripts({});
+
+      assert.equal(src, 'test/spec/**/*.js');
     });
 
   });

@@ -9,6 +9,10 @@
     return getOptions(options).sourceDir || 'app';
   }
 
+  function getTestDir(options) {
+    return getOptions(options).testDir || 'test';
+  }
+
   function isMinimal(options) {
     return getOptions(options).minimal === true;
   }
@@ -96,6 +100,7 @@
   module.exports = {
     getOptions: getOptions,
     getSourceDir: getSourceDir,
+    getTestDir: getTestDir,
     isMinimal: isMinimal,
     isProcess: isProcess,
     getDestination: getDestination,
