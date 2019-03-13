@@ -36,7 +36,7 @@ const resolveDependencies = require('gulp-resolve-dependencies');
 
 const appFilesModule = require('./libs/app-files');
 const appScriptModule = require('./libs/app-scripts');
-const testScriptModule = require('../libs/test-scripts');
+const appTestScriptModule = require('../libs/app-test-scripts');
 const vendorScriptModule = require('./libs/vendor-scripts');
 
 let gulp;
@@ -231,7 +231,7 @@ function appTestsScripts() {
   return gulp.src(appFilesModule.getTestScripts(startOptions), {
       base: process.cwd()
     })
-    .pipe(testScriptModule.getScripts(startOptions)());
+    .pipe(appTestScriptModule.getScripts(startOptions)());
 }
 
 function buildStyles(options) {

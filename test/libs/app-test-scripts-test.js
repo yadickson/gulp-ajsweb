@@ -8,13 +8,13 @@
   const path = require('path');
 
   const appFiles = require('../../libs/app-files');
-  const testScripts = require('../../libs/test-scripts');
+  const appTestScript = require('../../libs/app-test-scripts');
   const mockListFile = require('../mock/mock-list-file');
 
   describe('test scripts', function() {
 
-    it('Initialize testScripts', function() {
-      expect(!!testScripts).to.be.true;
+    it('Initialize appTestScript', function() {
+      expect(!!appTestScript).to.be.true;
     });
 
     it('Get Test Scripts', function(done) {
@@ -23,7 +23,7 @@
         sourceDir: 'test/resource/test'
       });
 
-      mockListFile(src, testScripts.getScripts({}))
+      mockListFile(src, appTestScript.getScripts({}))
         .then(output => {
           const contents = output;
 
