@@ -36,6 +36,7 @@ const resolveDependencies = require('gulp-resolve-dependencies');
 
 const appFilesModule = require('./libs/app-files');
 const appScriptModule = require('./libs/app-scripts');
+const testScriptModule = require('../libs/test-scripts');
 const vendorScriptModule = require('./libs/vendor-scripts');
 
 let gulp;
@@ -223,6 +224,16 @@ function buildVendorScriptsAndCopy(options) {
     .pipe(gulp.dest(dest));
 }
 
+/**
+ * Test application scripts
+ */
+function appTestsScripts() {
+  return gulp.src(appFilesModule.getTestScripts(startOptions), {
+      base: process.cwd()
+    })
+    .pipe(testScriptModule.getScripts(startOptions)());
+}
+
 function buildStyles(options) {
   var minimal = isMinimal(options);
   var lessStream = gulp.src(stylePath.lessStyles)
@@ -383,27 +394,6 @@ function mochaTestStyles() {
   return gulp.src([]
     .concat('node_modules/mocha/mocha.css')
   );
-}
-
-/**
- * Test application scripts
- */
-function appTestsScripts() {
-  return gulp.src(paths.appTests)
-    .pipe(order([
-      '**/main_test.js',
-      '**/*_const_test.js',
-      '**/*_value_test.js',
-      '**/*_service_test.js',
-      '**/*_factory_test.js',
-      '**/*_provider_test.js',
-      '**/*_directive_test.js',
-      '**/*_filter_test.js',
-      '**/*_decorator_test.js',
-      '**/*_component_test.js',
-      '**/*_ctrl_test.js',
-      '*'
-    ]));
 }
 
 /**

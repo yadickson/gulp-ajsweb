@@ -8,7 +8,13 @@
     return [src + '/scripts/**/*.js'];
   }
 
+	  function get_test_scripts(options) {
+	    var src = opt.getSourceDir(options);
+	    return [src + '/spec/**/*.js'];
+	  }
+
   module.exports = {
-    getScripts: get_scripts
+    getScripts: get_scripts,
+		getTestScripts: get_test_scripts
   };
 })();
