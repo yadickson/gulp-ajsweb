@@ -52,23 +52,11 @@
       });
   }
 
-  function get_scripts(options) {
-    var minimal = opt.isMinimal(options);
-    var orderBy = opt.getOrderBy(options);
-    var addpaths = opt.getAddPaths(options);
-    var isaddpaths = opt.isAddPaths(options);
-    var excludepaths = opt.getExcludePaths(options);
-    var isexcludepaths = opt.isExcludePaths(options);
-    var notprocess = opt.getNotProcess(options);
-    var isRename = opt.getRenameVendor(options);
-
+  function browserify_scripts(options) {
     return lazypipe()
-      .pipe(gulpif, isaddpaths, !isaddpaths || addsrc(addpaths, {
-        base: process.cwd()
-      }))
-      .pipe(gulpif, isexcludepaths, !isexcludepaths || filter(['**'].concat(excludepaths)))
       .pipe(flatmap, function(stream, file) {
 
+        var notprocess = opt.getNotProcess(options);
         var dirname = file.path;
         var filename = dirname.replace(/.*\/node_modules\/(.*?)\/.*/g, '$1.js');
         var isprocess = opt.isProcess(options) && matchInArray(file.path, notprocess);
@@ -80,7 +68,24 @@
             debug: false
           })))
           .pipe(concat(filename));
-      })
+      });
+  }
+
+  function get_scripts(options) {
+    var minimal = opt.isMinimal(options);
+    var orderBy = opt.getOrderBy(options);
+    var addpaths = opt.getAddPaths(options);
+    var isaddpaths = opt.isAddPaths(options);
+    var excludepaths = opt.getExcludePaths(options);
+    var isexcludepaths = opt.isExcludePaths(options);
+    var isRename = opt.getRenameVendor(options);
+
+    return lazypipe()
+      .pipe(gulpif, isaddpaths, !isaddpaths || addsrc(addpaths, {
+        base: process.cwd()
+      }))
+      .pipe(gulpif, isexcludepaths, !isexcludepaths || filter(['**'].concat(excludepaths)))
+      .pipe(gulpif, isRename, !isRename || browserify_scripts(options)())
       .pipe(order, orderBy.concat(['*']))
       .pipe(gulpif, process, !process || process_scripts()())
       .pipe(gulpif, isRename, !isRename || rename_scripts()())
