@@ -24,7 +24,7 @@
     "gulp-cache": "~1.0.1",
     "gulp-clean-css": "~3.9.0",
     "gulp-concat": "~2.6.1",
-    "gulp-connect": "~5.5.0",
+    "gulp-connect": "~5.6.1",
     "gulp-css-url-adjuster": "~0.2.3",
     "gulp-filter": "~5.1.0",
     "gulp-flatmap": "~1.0.2",
@@ -41,7 +41,7 @@
     "gulp-print": "~5.0.0",
     "gulp-remove-lines": "~0.1.0",
     "gulp-rename": "~1.2.2",
-    "gulp-resolve-dependencies": "~2.2.0",
+    "gulp-resolve-dependencies": "~3.0.0",
     "gulp-sonar": "^3.0.1",
     "gulp-sourcemaps": "~2.6.1",
     "gulp-strip-css-comments": "~2.0.0",
@@ -64,7 +64,8 @@
     "path": "~0.12.7",
     "run-sequence": "~2.2.0",
     "sinon": "~4.1.2",
-    "stream-series": "~0.1.1"
+    "stream-series": "~0.1.1",
+    "snyk": "^1.147.0"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
@@ -90,9 +91,12 @@
   "scripts": {
     "clean": "./node_modules/.bin/rimraf coverage reports *.tgz",
     "test": "./node_modules/.bin/nyc --reporter=html mocha --recursive test/libs/**/*.js",
-    "coveralls": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
