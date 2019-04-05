@@ -116,8 +116,12 @@
     getConfigFile: getConfigFile,
     isAddPaths: isAddPaths,
     getAddPaths: getAddPaths,
+		isAddTestPaths: isAddTestPaths,
+		getAddTestPaths: getAddTestPaths,
     isExcludePaths: isExcludePaths,
     getExcludePaths: getExcludePaths,
+		isExcludeTestPaths: isExcludeTestPaths,
+		getExcludeTestPaths: getExcludeTestPaths,
     getNotProcess: getNotProcess,
     getOrderBy: getOrderBy,
     getDocPaths: getDocPaths

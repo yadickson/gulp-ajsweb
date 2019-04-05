@@ -25,9 +25,9 @@
           const contents = output;
 
           var expeted = [
-            path.join(process.cwd(), 'test/resource/node_modules/module1/index.js'),
-            path.join(process.cwd(), 'test/resource/node_modules/module2/index.js'),
-            path.join(process.cwd(), 'test/resource/node_modules/module3/libs/filter.js')
+            path.join(process.cwd(), 'build/js/vendor/module1.js'),
+            path.join(process.cwd(), 'build/js/vendor/module2.js'),
+            path.join(process.cwd(), 'build/js/vendor/module3.js')
           ];
 
           expect(!!contents).to.be.true;

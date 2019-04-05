@@ -23,7 +23,6 @@ let browser = 'firefox';
 let target = './';
 let buildPath = 'build';
 let distPath = 'dist';
-let testVendor = './test/vendor/';
 let sonarServer = 'http://localhost:9000';
 let sourceDir = 'app';
 
@@ -68,7 +67,7 @@ function tasks(gulp, options) {
   });
 
   gulp.task('clean-all', () => {
-    return del([testVendor, 'build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
+    return del(['build', 'dist', 'coverage', 'reports', '*.tgz', '*.zip', 'docs']);
   });
 
   gulp.task('clean-css-folder', () => {
@@ -81,10 +80,6 @@ function tasks(gulp, options) {
 
   gulp.task('clean-resource-folder', () => {
     return del('resource');
-  });
-
-  gulp.task('test-clean', () => {
-    return del([testVendor]);
   });
 
   /**
@@ -231,6 +226,13 @@ function tasks(gulp, options) {
     });
   });
 
+  gulp.task('test-vendor-karma', () => {
+    return ajsweb.buildVendorKarmaTestScripts({
+      dest: dest,
+      minimal: minimal
+    });
+  });
+
   gulp.task('test-vendor', () => {
     return ajsweb.buildVendorTestScripts({
       dest: dest,
@@ -278,11 +280,11 @@ function tasks(gulp, options) {
   gulp.task('karma-cnf', () => {
     return ajsweb.updateKarmaFile({
       configFile: 'karma.conf.js',
-      dest: testVendor
+      dest: process.cwd()
     });
   });
 
-  gulp.task('karma-server', function (done) {
+  gulp.task('karma-server', function(done) {
     new karma({
       configFile: path.join(process.cwd(), 'karma.conf.js'),
       singleRun: true,
@@ -324,8 +326,10 @@ function tasks(gulp, options) {
    * @order {3}
    */
   gulp.task('test', function() {
+    minimal = false;
+    dest = buildPath;
     return new Promise(resolve => {
-      runSequence(['test-clean'], ['jshint'], ['test-jshint'], ['karma-cnf'], ['karma-server'], resolve);
+      runSequence(['clean'], ['jshint'], ['test-jshint'], ['test-vendor-karma'], ['karma-cnf'], ['karma-server'], resolve);
     });
   });
 

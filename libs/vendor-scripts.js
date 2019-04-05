@@ -19,14 +19,12 @@
 
   function matchInArray(string, array) {
     var i;
-    var input = string.replace(/[\/\.\\\@]/g, '_');
+    var input = string.replace(/.*\/node_modules\/(.*?)\/.*/g, '$1');
 
     for (i = 0; i < array.length; i++) {
-      var value = array[i].replace(/[\/\.\\\@]/g, '_');
-      var re = new RegExp(value);
-      var result = input.match(re) || {};
+      var value = array[i].replace(/.*\/node_modules\/(.*?)\/.*/g, '$1');
 
-      if (result.index !== undefined) {
+      if (value === input) {
         return true;
       }
     }
@@ -53,16 +51,17 @@
   }
 
   function browserify_scripts(options) {
+		var notprocess = opt.getNotProcess(options);
+
     return lazypipe()
       .pipe(flatmap, function(stream, file) {
 
-        var notprocess = opt.getNotProcess(options);
         var dirname = file.path;
         var filename = dirname.replace(/.*\/node_modules\/(.*?)\/.*/g, '$1.js');
-        var isprocess = opt.isProcess(options) && matchInArray(file.path, notprocess);
+        var proc = !matchInArray(file.path, notprocess);
 
         return stream
-          .pipe(gulpif(isprocess, !isprocess || browserify({
+          .pipe(gulpif(proc, !proc || browserify({
             insertGlobals: false,
             global: false,
             debug: false
@@ -79,15 +78,16 @@
     var excludepaths = opt.getExcludePaths(options);
     var isexcludepaths = opt.isExcludePaths(options);
     var isRename = opt.getRenameVendor(options);
+    var isprocess = opt.isProcess(options);
 
     return lazypipe()
       .pipe(gulpif, isaddpaths, !isaddpaths || addsrc(addpaths, {
         base: process.cwd()
       }))
       .pipe(gulpif, isexcludepaths, !isexcludepaths || filter(['**'].concat(excludepaths)))
-      .pipe(gulpif, isRename, !isRename || browserify_scripts(options)())
+      .pipe(browserify_scripts(options))
       .pipe(order, orderBy.concat(['*']))
-      .pipe(gulpif, process, !process || process_scripts()())
+      .pipe(gulpif, isprocess, !isprocess || process_scripts()())
       .pipe(gulpif, isRename, !isRename || rename_scripts()())
       .pipe(gulpif, minimal, !minimal || concat('js/vendor.js'));
   }

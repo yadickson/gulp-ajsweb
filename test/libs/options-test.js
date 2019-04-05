@@ -112,5 +112,75 @@
       assert.equal(src, 'xyz');
     });
 
+    it('Get Is Add Paths Default False', function() {
+      var result = opt.isAddPaths();
+      expect(result).to.be.false;
+    });
+
+    it('Get Is Add Paths Default True', function() {
+      var result = opt.isAddPaths({
+        addpaths: ['a', 'b']
+      });
+      expect(result).to.be.true;
+    });
+
+    it('Get Is Add Paths Default False', function() {
+      var result = opt.isAddPaths({
+        addpaths: []
+      });
+      expect(result).to.be.false;
+    });
+
+    it('Get Add Paths Default', function() {
+      var src = opt.getAddPaths();
+      should.exist(src);
+      expect(src).to.be.an('array')
+      expect(src).to.have.lengthOf(0);
+    });
+
+    it('Get Add Paths Value', function() {
+      var src = opt.getAddPaths({
+        addpaths: ['a', 'b']
+      });
+      should.exist(src);
+      expect(src).to.be.an('array')
+      expect(src).to.have.lengthOf(2);
+    });
+
+    it('Get Is Add Test Paths Default False', function() {
+      var result = opt.isAddTestPaths();
+      expect(result).to.be.false;
+    });
+
+    it('Get Is Add Test Paths Default True', function() {
+      var result = opt.isAddTestPaths({
+        addtestpaths: ['a', 'b']
+      });
+      expect(result).to.be.true;
+    });
+
+    it('Get Is Add Test Paths Default False', function() {
+      var result = opt.isAddTestPaths({
+        addtestpaths: []
+      });
+      expect(result).to.be.false;
+    });
+
+    it('Get Add Test Paths Default', function() {
+      var src = opt.getAddTestPaths();
+      should.exist(src);
+      expect(src).to.be.an('array')
+      expect(src).to.have.lengthOf(0);
+    });
+
+    it('Get Add Test Paths Value', function() {
+      var src = opt.getAddTestPaths({
+        addtestpaths: ['a', 'b']
+      });
+      should.exist(src);
+      expect(src).to.be.an('array')
+      expect(src).to.have.lengthOf(2);
+    });
+
   });
 })();

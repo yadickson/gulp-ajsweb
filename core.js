@@ -36,7 +36,7 @@ const resolveDependencies = require('gulp-resolve-dependencies');
 
 const appFilesModule = require('./libs/app-files');
 const appScriptModule = require('./libs/app-scripts');
-const appTestScriptModule = require('../libs/app-test-scripts');
+const appTestScriptModule = require('./libs/app-test-scripts');
 const vendorScriptModule = require('./libs/vendor-scripts');
 const vendorTestScriptModule = require('./libs/vendor-test-scripts');
 
@@ -209,6 +209,7 @@ function buildScriptsAndCopy(options) {
  * Build vendor elements
  */
 function buildVendorScripts(options) {
+	startOptions.orderBy = getOrderBy(options);
   startOptions.minimal = isMinimal(options);
   return vendorScripts()
     .pipe(vendorScriptModule.getScriptsBase(startOptions)());
@@ -238,11 +239,26 @@ function appTestsScripts() {
 /**
  * Test vendor scripts
  */
-function buildVendorTestScripts() {
+function buildVendorKarmaTestScripts() {
   return gulp.src(mainNpmFiles(), {
       base: process.cwd()
     })
     .pipe(vendorTestScriptModule.getScripts(startOptions)());
+}
+
+/**
+ * Test vendor scripts
+ */
+function buildVendorTestScripts() {
+  return gulp.src(mainNpmFiles(), {
+      base: process.cwd()
+    })
+    .pipe(vendorTestScriptModule.getScriptsHtml(startOptions)());
+}
+
+function buildVendorKarmaTestScriptsAndCopy(options) {
+  return buildVendorKarmaTestScripts()
+    .pipe(gulp.dest('.'));
 }
 
 function buildVendorTestScriptsAndCopy(options) {
@@ -470,7 +486,7 @@ function buildIndexTest(options) {
 function updateKarmaFile(options) {
   var configFile = getConfigFile(options);
   return gulp.src(configFile)
-    .pipe(inject(series(buildVendorTestScripts(options), appScripts(), appTestsScripts()), {
+    .pipe(inject(series(buildVendorKarmaTestScripts(options), appScripts(), appTestsScripts()), {
       starttag: 'files: [',
       endtag: '],',
       relative: true,
@@ -505,6 +521,7 @@ module.exports = {
   buildAppTestScripts: buildAppTestScriptsAndCopy,
   buildVendorScripts: buildVendorScriptsAndCopy,
   buildVendorTestScripts: buildVendorTestScriptsAndCopy,
+	buildVendorKarmaTestScripts: buildVendorKarmaTestScriptsAndCopy,
   buildMochaTestScripts: buildMochaTestScriptsAndCopy,
   buildMochaTestStyle: buildMochaTestStyleAndCopy,
   updateKarmaFile: updateKarmaFile,
