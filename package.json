@@ -64,7 +64,8 @@
     "path": "~0.12.7",
     "run-sequence": "~2.2.0",
     "sinon": "~4.1.2",
-    "stream-series": "~0.1.1"
+    "stream-series": "~0.1.1",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "gulp": "~3.9.1",
@@ -90,9 +91,12 @@
   "scripts": {
     "clean": "./node_modules/.bin/rimraf coverage reports *.tgz",
     "test": "./node_modules/.bin/nyc --reporter=html mocha --recursive test/libs/**/*.js",
-    "coveralls": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls"
+    "coveralls": "./node_modules/.bin/nyc report --reporter=text-lcov | coveralls",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "snyk": true
 }
