@@ -52,7 +52,7 @@
     "jshint": "~2.9.5",
     "karma-bro": "~0.11.1",
     "karma-chai": "~0.1.0",
-    "karma-coverage": "~1.1.2",
+    "karma-coverage": "~2.0.2",
     "karma-istanbul": "~0.0.2",
     "karma-junit-reporter": "~2.0.0",
     "karma-mocha": "~1.3.0",
