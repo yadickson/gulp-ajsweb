@@ -1,0 +1,35 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:debug:20170905':
+    - gulp-connect > tiny-lr > body-parser > debug:
+        patched: '2022-10-09T20:28:47.901Z'
+  'npm:minimatch:20160620':
+    - karma-bro > watchify > chokidar > readdirp > minimatch:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > minimatch:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > browserify > glob > minimatch:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > watchify > browserify > glob > minimatch:
+        patched: '2022-10-09T20:28:47.901Z'
+    - gulp-browserify > browserify > glob > minimatch:
+        patched: '2022-10-09T20:28:47.901Z'
+  'npm:ms:20170412':
+    - gulp-connect > tiny-lr > body-parser > debug > ms:
+        patched: '2022-10-09T20:28:47.901Z'
+  'npm:uglify-js:20151024':
+    - gulp-browserify > browserify > umd > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > browserify > umd > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > browserify > browser-pack > umd > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
+    - gulp-browserify > browserify > umd > ruglify > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > browserify > umd > ruglify > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
+    - karma-bro > browserify > browser-pack > umd > ruglify > uglify-js:
+        patched: '2022-10-09T20:28:47.901Z'
